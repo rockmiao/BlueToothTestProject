@@ -87,7 +87,9 @@ bool HelloWorld::init()
 
     // add a label shows "Hello World"
     // create and initialize a label
-    CBBlueTooth *blueToothImpl = new CBBlueTooth();
+    //CBBlueTooth *blueToothImpl = new CBBlueTooth();
+    CBBlueTooth *BLEView = CBBlueTooth::create();
+    this->addChild(BLEView);
     
 
     auto label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);

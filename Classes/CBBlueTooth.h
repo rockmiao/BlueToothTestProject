@@ -10,12 +10,22 @@
 
 #import <objc/runtime.h>
 
-class CBBlueTooth
+#include "cocos2d.h"
+#include "cocos-ext.h"
+
+USING_NS_CC;
+USING_NS_CC_EXT;
+
+
+class CBBlueTooth : public Layer//, public TableViewDelegate
 {
     id _blueToothImpl;
 public:
     CBBlueTooth();
     ~CBBlueTooth();
+    
+    static CBBlueTooth* create();
+    bool init();
 };
 
 #endif /* CBBlueTooth_h */

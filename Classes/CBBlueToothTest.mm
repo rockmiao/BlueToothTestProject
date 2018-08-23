@@ -7,6 +7,7 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreBluetooth/CoreBluetooth.h>
+#import <BLESettingHeader.h>
 
 #include "CBBlueTooth.h"
 
@@ -42,17 +43,32 @@ static char *my_rssi = "my_ssi";
 
 @end
 
-CBBlueTooth::CBBlueTooth()
-{
+#pragma C++ PART
+
+CBBlueTooth::CBBlueTooth() {
     _blueToothImpl = [[CBBlueToothTest alloc] init];
     
     [(CBBlueToothTest *)_blueToothImpl initCBBlueToothTest];
 }
 
-CBBlueTooth::~CBBlueTooth()
-{
+CBBlueTooth::~CBBlueTooth() {
     
 }
+
+CBBlueTooth *CBBlueTooth::create() {
+    CBBlueTooth *ret = new CBBlueTooth();
+    if (ret && ret->init())
+        ret->autorelease();
+    else
+        CC_SAFE_DELETE(ret);
+    return ret;
+}
+
+bool CBBlueTooth::init() {
+    return true;
+}
+
+#pragma Objective-C PART
 
 @implementation CBBlueToothTest
 
@@ -62,8 +78,7 @@ CBBlueTooth::~CBBlueTooth()
     _data = [[[NSMutableData alloc] init] retain];
 }
 
-- (void) scanTimeout:(NSTimer*)timer
-{
+- (void) scanTimeout:(NSTimer*)timer {
     if (_centralManager!=NULL){
         [_centralManager stopScan];
     }else{
@@ -71,6 +86,8 @@ CBBlueTooth::~CBBlueTooth()
     }
     NSLog(@"scanTimeout");
 }
+
+#pragma mark - CBCentralManagerDelegate
 
 - (void)centralManagerDidUpdateState:(nonnull CBCentralManager *)central {
     switch (central.state) {
@@ -91,28 +108,204 @@ CBBlueTooth::~CBBlueTooth()
             break;
         case CBManagerStatePoweredOn:
             NSLog(@"Bluetooth is currently powered on and available to use.");
-            //开始扫描外设
-            //第一个参数为 nil 则会扫描所有可连接设备.
-            //也可以指定一个 CBUUID对象，则只扫描注册用指定服务的设备
-            //扫描到外设后，会调用发现外设委托方法
-            [_centralManager scanForPeripheralsWithServices:nil options:nil];
-            [NSTimer scheduledTimerWithTimeInterval:20.0f target:self selector:@selector(scanTimeout:) userInfo:nil repeats:NO];
+            //掃描指定device uuid, 帶入nil會找所有device
+            //有找到會調用 didDiscoverPeripheral
+            CBUUID *deviceInfo_uuid = [CBUUID UUIDWithString:DEVICE_UUID];
+            NSArray<CBUUID *> *uuidArray = @[deviceInfo_uuid];
+            
+            [_centralManager scanForPeripheralsWithServices:uuidArray options:nil];
+            //可設定搜尋幾秒 但如果是指定device uuid的話就可以不用限制
+            //[NSTimer scheduledTimerWithTimeInterval:20.0f target:self selector:@selector(scanTimeout:) userInfo:nil repeats:NO];
             break;
     }
 }
 
-//发现外设委托
+//找到設備
 - (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary<NSString *, id> *)advertisementData RSSI:(NSNumber *)RSSI {
-    NSLog(@"外设: %@",peripheral);
-    if ([_dataSource containsObject:peripheral]) {
-        [_dataSource removeObject:peripheral];
-        [_dataSource insertObject:peripheral atIndex:0];
-    }
-    else {
+    NSLog(@"找到設備: %@",peripheral.name);
+    if (![_dataSource containsObject:peripheral]) {
         [_dataSource addObject:peripheral];
     }
+    else {
+        CBPeripheral *updateObject;
+        [_dataSource getObjects:&updateObject];
+        updateObject.myRSSI = RSSI;
+    }
     peripheral.myRSSI = RSSI;
+    Director::getInstance()->getEventDispatcher()->dispatchCustomEvent("fuck");
     //[_tableView reloadData];
+}
+
+//連接成功
+- (void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral {
+    NSLog(@"成功連接到 %@",peripheral.name);
+    
+    [central stopScan];
+    NSLog(@"停止掃描");
+    
+    [self.data setLength:0];
+    //設 delegate 以便callback
+    [peripheral setDelegate:self];
+    
+    //尋找主service跟電池的service
+    NSArray<CBUUID *> *uuidArray = @[[CBUUID UUIDWithString:MAIN_SERVICE_UUID],
+                                     [CBUUID UUIDWithString:BATTERY_UUID]];
+    [peripheral discoverServices:uuidArray];
+}
+
+//連接失敗
+- (void)centralManager:(CBCentralManager *)central didFailToConnectPeripheral:(CBPeripheral *)peripheral error:(nullable NSError *)error {
+    NSLog(@"連接失敗:%@",error);
+    [self cleanup];
+}
+
+//連接中斷
+- (void)centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(nullable NSError *)error {
+    NSLog(@"連接中斷%@",error);
+    self.myPeripheral  = nil;
+    //重啟掃描
+    CBUUID *deviceInfo_uuid = [CBUUID UUIDWithString:DEVICE_UUID];
+    NSArray<CBUUID *> *uuidArray = @[deviceInfo_uuid];
+    [central scanForPeripheralsWithServices:uuidArray options:nil];
+}
+
+#pragma mark - CBPeripheralDelegate
+
+- (void)peripheral:(CBPeripheral *)peripheral didDiscoverServices:(nullable NSError *)error {
+    //連接device後 啟動 discoverServices 找到service的callback
+    if (error) {
+        NSLog(@"Error discover services : %@",error.localizedDescription);
+        [self cleanup];
+        return;
+    }
+    
+    NSLog(@"服务: %@",peripheral.services);
+    
+    //掃描每个service的Characteristics
+    for (CBService *service in peripheral.services) {
+        NSLog(@"%@",service.UUID);
+        
+        [peripheral discoverCharacteristics:nil forService:service];
+    }
+}
+
+- (void)peripheral:(CBPeripheral *)peripheral didDiscoverCharacteristicsForService:(CBService *)service error:(NSError *)error {
+    if (error) {
+        NSLog(@"Error Discover caracteristics : %@",error.localizedDescription);
+        [self cleanup];
+        return;
+    }
+    
+    for (CBCharacteristic *characteristic  in service.characteristics) {
+        //打開Characteristic的notify, 當有notify回傳時會call didUpdateValueForCharacteristic
+        [peripheral setNotifyValue:YES forCharacteristic:characteristic];
+    }
+    
+    //等待获取数据didDiscoverServices
+    
+    //    //获取 Characteristic,读取数据
+    //    //会调用 didUpdateValueForCharacteristic 方法
+    //    for (CBCharacteristic *characteristic  in service.characteristics) {
+    //        [peripheral readValueForCharacteristic:characteristic];
+    //    }
+    //
+    //    //搜索Characteristic的Descriptors，读到数据
+    //    //会调用 didDiscoverDescriptorsForCharacteristic 方法
+    //    for (CBCharacteristic *characteristic  in service.characteristics) {
+    //        [peripheral discoverDescriptorsForCharacteristic:characteristic];
+    //    }
+}
+
+//notify相關
+- (void)peripheral:(CBPeripheral *)peripheral didUpdateNotificationStateForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error {
+    //檢查此characteristic有沒有notify的功能 沒有就會被關掉
+    if (error) {
+        NSLog(@"Error notificaiton state: %@",error.localizedDescription);
+    }
+    if (characteristic.isNotifying)
+        //通知開啟
+        NSLog(@"開啟 %@ 通知",characteristic);
+    else
+        //通知關閉
+        NSLog(@"關閉 %@ 通知",characteristic);
+}
+
+//获取characteristic的值
+- (void)peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(nonnull CBCharacteristic *)characteristic error:(nullable NSError *)error {
+    if (error) {
+        NSLog(@"Error characteristic : %@",error.localizedDescription);
+        return;
+    }
+    
+    //讀取數據 這邊需要判斷現在傳資料過來的 characteristic 是哪一個 分別處理
+    NSString *stringFromData = [[NSString alloc]initWithData:characteristic.value encoding:NSUTF8StringEncoding];
+    
+    if ([stringFromData isEqualToString:@"EOM"]) {
+        
+        //UIImage *image = [UIImage imageWithData:self.data];
+        //self.imagaView.image = image;
+        
+        //取消訂閱
+        [peripheral setNotifyValue:NO forCharacteristic:characteristic];
+        
+        //[peripheral w
+        
+        //中斷連接
+        //[_centralManager cancelPeripheralConnection:peripheral];
+    }
+    
+    //[self.data appendData:characteristic.value];
+    
+    NSLog(@"收到值: %@",stringFromData);
+}
+
+//搜索characteristic的 Descriptors
+- (void)peripheral:(CBPeripheral *)peripheral didDiscoverDescriptorsForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error {
+    if (!error) {
+        for (CBDescriptor *descroptor in characteristic.descriptors) {
+            NSLog(@"Descriptor uuid: %@",descroptor.UUID);
+        }
+    }
+}
+
+//訊號強度
+- (void)peripheral:(CBPeripheral *)peripheral didReadRSSI:(NSNumber *)RSSI error:(NSError *)error {
+    if (!error) {
+        peripheral.myRSSI = RSSI;
+    }
+}
+
+//接收 Descriptors值
+- (void)peripheral:(CBPeripheral *)peripheral didUpdateValueForDescriptor:(CBDescriptor *)descriptor error:(NSError *)error {
+    if (!error) {
+        NSLog(@"descriptor uuid: %@ value: %@",descriptor.UUID,descriptor.value);
+    }
+}
+
+#pragma mark - private
+
+- (void)cleanup {
+    if (self.myPeripheral.state != CBPeripheralStateConnected) {
+        return;
+    }
+    
+    //檢查peripheral 是否有正在發送notify的characteristic
+    if (self.myPeripheral.services != nil) {
+        
+        for (CBService *service in self.myPeripheral.services) {
+            if (service.characteristics != nil) {
+                for (CBCharacteristic *characteristic in service.characteristics) {
+                    if (characteristic.isNotifying) {
+                        [self.myPeripheral setNotifyValue:NO forCharacteristic:characteristic];
+                        return;
+                    }
+                }
+            }
+        }
+    }
+    
+    //有連接但沒訂閱 就斷開連接
+    [_centralManager cancelPeripheralConnection:self.myPeripheral];
 }
 
 @end
