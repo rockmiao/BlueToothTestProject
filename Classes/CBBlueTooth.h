@@ -17,9 +17,11 @@ USING_NS_CC;
 USING_NS_CC_EXT;
 
 
-class CBBlueTooth : public Layer//, public TableViewDelegate
+class CBBlueTooth : public Node
 {
+private:
     id _blueToothImpl;
+    
 public:
     CBBlueTooth();
     ~CBBlueTooth();

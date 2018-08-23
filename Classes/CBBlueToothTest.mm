@@ -132,7 +132,8 @@ bool CBBlueTooth::init() {
         updateObject.myRSSI = RSSI;
     }
     peripheral.myRSSI = RSSI;
-    Director::getInstance()->getEventDispatcher()->dispatchCustomEvent("fuck");
+    
+    Director::getInstance()->getEventDispatcher()->dispatchCustomEvent("NotifyRefreshDataList");
     //[_tableView reloadData];
 }
 
@@ -195,13 +196,11 @@ bool CBBlueTooth::init() {
         [self cleanup];
         return;
     }
-    
+    //這裏有可能對不同的 characteristic 進行不同的處理
     for (CBCharacteristic *characteristic  in service.characteristics) {
         //打開Characteristic的notify, 當有notify回傳時會call didUpdateValueForCharacteristic
         [peripheral setNotifyValue:YES forCharacteristic:characteristic];
     }
-    
-    //等待获取数据didDiscoverServices
     
     //    //获取 Characteristic,读取数据
     //    //会调用 didUpdateValueForCharacteristic 方法
