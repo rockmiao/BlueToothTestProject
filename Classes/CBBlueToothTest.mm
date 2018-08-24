@@ -68,6 +68,16 @@ bool CBBlueTooth::init() {
     return true;
 }
 
+std::pair<std::string, int> CBBlueTooth::getPeripheralByIndex(ssize_t idx)
+{
+    NSMutableArray *dataSource = ((CBBlueToothTest *)_blueToothImpl).dataSource;
+    CBPeripheral *peripheral = dataSource[idx];
+    
+    std::string str = [peripheral.name length] ? std::string([peripheral.name UTF8String]) : "No name";
+    
+    return std::make_pair(str, [peripheral.myRSSI intValue]);
+}
+
 #pragma Objective-C PART
 
 @implementation CBBlueToothTest
@@ -114,8 +124,9 @@ bool CBBlueTooth::init() {
             NSArray<CBUUID *> *uuidArray = @[deviceInfo_uuid];
             
             [_centralManager scanForPeripheralsWithServices:uuidArray options:nil];
+            //[_centralManager scanForPeripheralsWithServices:nil options:nil];
             //可設定搜尋幾秒 但如果是指定device uuid的話就可以不用限制
-            //[NSTimer scheduledTimerWithTimeInterval:20.0f target:self selector:@selector(scanTimeout:) userInfo:nil repeats:NO];
+            [NSTimer scheduledTimerWithTimeInterval:20.0f target:self selector:@selector(scanTimeout:) userInfo:nil repeats:NO];
             break;
     }
 }
@@ -123,18 +134,18 @@ bool CBBlueTooth::init() {
 //找到設備
 - (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary<NSString *, id> *)advertisementData RSSI:(NSNumber *)RSSI {
     NSLog(@"找到設備: %@",peripheral.name);
-    if (![_dataSource containsObject:peripheral]) {
-        [_dataSource addObject:peripheral];
+    if ([_dataSource containsObject:peripheral]) {
+        [_dataSource removeObject:peripheral];
+        [_dataSource insertObject:peripheral atIndex:0];
     }
     else {
-        CBPeripheral *updateObject;
-        [_dataSource getObjects:&updateObject];
-        updateObject.myRSSI = RSSI;
+        [_dataSource addObject:peripheral];
     }
     peripheral.myRSSI = RSSI;
     
-    Director::getInstance()->getEventDispatcher()->dispatchCustomEvent("NotifyRefreshDataList");
-    //[_tableView reloadData];
+    Value eventValue((int)_dataSource.count);
+    
+    Director::getInstance()->getEventDispatcher()->dispatchCustomEvent("NotifyRefreshDataList", &eventValue);
 }
 
 //連接成功

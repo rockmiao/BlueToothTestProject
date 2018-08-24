@@ -89,7 +89,6 @@ bool HelloWorld::init()
     
     PeripheralListLayer *peripherals = PeripheralListLayer::create();
     this->addChild(peripherals);
-    
 
     auto label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
     if (label == nullptr)
@@ -108,19 +107,19 @@ bool HelloWorld::init()
     }
 
     // add "HelloWorld" splash screen"
-    auto sprite = Sprite::create("HelloWorld.png");
-    if (sprite == nullptr)
-    {
-        problemLoading("'HelloWorld.png'");
-    }
-    else
-    {
-        // position the sprite on the center of the screen
-        sprite->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
-
-        // add the sprite as a child to this layer
-        this->addChild(sprite, 0);
-    }
+//    auto sprite = Sprite::create("HelloWorld.png");
+//    if (sprite == nullptr)
+//    {
+//        problemLoading("'HelloWorld.png'");
+//    }
+//    else
+//    {
+//        // position the sprite on the center of the screen
+//        sprite->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
+//
+//        // add the sprite as a child to this layer
+//        this->addChild(sprite, 0);
+//    }
     return true;
 }
 

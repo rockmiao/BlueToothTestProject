@@ -10,6 +10,7 @@
 
 #include "cocos2d.h"
 #include "cocos-ext.h"
+#include "CBBlueTooth.h"
 
 USING_NS_CC;
 USING_NS_CC_EXT;
@@ -19,6 +20,9 @@ class PeripheralListLayer : public Layer, public TableViewDelegate, public Table
 private:
     Size _visibleSize;
     TableView *_tableView;
+    int _cellNumber;
+    
+    CBBlueTooth *_BLEView;
 public:
     static PeripheralListLayer *create();
     bool init();
@@ -37,8 +41,16 @@ public:
 
 class PeripheralListCell : public TableViewCell
 {
+private:
+    ui::Scale9Sprite *_mark;
+    Label *_name;
+    Label *_rssi;
+    
 public:
-    void refreshCell(ssize_t idx);
+    PeripheralListCell();
+    ~PeripheralListCell();
+    
+    void refreshCell(std::pair<std::string, int> nameRSSI, ssize_t idx);
 };
 
 #endif /* PeripheralListLayer_hpp */

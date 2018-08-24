@@ -28,6 +28,8 @@ public:
     
     static CBBlueTooth* create();
     bool init();
+    
+    std::pair<std::string, int> getPeripheralByIndex(ssize_t idx);
 };
 
 #endif /* CBBlueTooth_h */

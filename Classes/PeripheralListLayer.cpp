@@ -6,7 +6,6 @@
 //
 
 #include "PeripheralListLayer.hpp"
-#include "CBBlueTooth.h"
 
 PeripheralListLayer *PeripheralListLayer::create()
 {
@@ -26,20 +25,26 @@ bool PeripheralListLayer::init()
     _visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
-    CBBlueTooth *BLEView = CBBlueTooth::create();
-    this->addChild(BLEView);
+    _BLEView = CBBlueTooth::create();
+    this->addChild(_BLEView);
+    
+    Size viewSize = Size(_visibleSize.width/2, _visibleSize.height - 64);
     
     //TableView
     Layer *mainLayer = Layer::create();
-    _tableView = TableView::create(this, Size(_visibleSize.width, _visibleSize.height - 64), mainLayer);
+    _tableView = TableView::create(this, viewSize, mainLayer);
     _tableView->setDirection(TableView::Direction::VERTICAL);
     _tableView->setVerticalFillOrder(TableView::VerticalFillOrder::TOP_DOWN);
-    _tableView->setVisible(false);
+    //_tableView->setVisible(false);
     _tableView->setDelegate(this);
+    _tableView->setPosition(_visibleSize.width/2 + origin.x - viewSize.width/2, _visibleSize.height/2 + origin.y - viewSize.height/2);
     this->addChild(_tableView);
     
     Director::getInstance()->getEventDispatcher()->addCustomEventListener("NotifyRefreshDataList", [=](EventCustom *event){
+        cocos2d::Value eventValue = *(cocos2d::Value*) event->getUserData();
+        _cellNumber = eventValue.asInt();
         
+        _tableView->reloadData();
     });
     
     return true;
@@ -64,7 +69,7 @@ void PeripheralListLayer::tableCellUnhighlight(TableView* table, TableViewCell* 
 
 Size PeripheralListLayer::tableCellSizeForIndex(TableView *table, ssize_t idx)
 {
-    return Size(_visibleSize.width, 30);
+    return Size(_visibleSize.width/2, 30);
 }
 
 TableViewCell* PeripheralListLayer::tableCellAtIndex(TableView *table, ssize_t idx)
@@ -76,19 +81,49 @@ TableViewCell* PeripheralListLayer::tableCellAtIndex(TableView *table, ssize_t i
         cell->autorelease();
         cell->setAnchorPoint(Vec2(0,0));
     }
-    cell->refreshCell(idx);
+    std::pair<std::string, int> data = _BLEView->getPeripheralByIndex(idx);
+    cell->refreshCell(data, idx);
     
     return cell;
 }
 
 ssize_t PeripheralListLayer::numberOfCellsInTableView(TableView *table)
 {
-    return 0;
+    return _cellNumber;
 }
 
 #pragma TableViewCell
 
-void PeripheralListCell::refreshCell(ssize_t idx)
+PeripheralListCell::PeripheralListCell()
 {
+    _mark = ui::Scale9Sprite::create("bg_information6.png");
+    _mark->setPreferredSize(Size(Director::getInstance()->getVisibleSize().width/2, 30));
+    _mark->setAnchorPoint(Vec2(0, 0));
+    this->addChild(_mark);
+    
+    _name = Label::createWithSystemFont("", "HelveticaNeue", 16);
+    _name->setColor(Color3B::WHITE);
+    _name->setAnchorPoint(Vec2(0, 0.5));
+    _name->setPosition(Vec2(20, 15));
+    this->addChild(_name);
+    
+    _rssi = Label::createWithSystemFont("", "HelveticaNeue", 16);
+    _rssi->setColor(Color3B::WHITE);
+    _rssi->setAnchorPoint(Vec2(1, 0.5));
+    _rssi->setPosition(Vec2(Director::getInstance()->getVisibleSize().width/2 - 10, 15));
+    this->addChild(_rssi);
+}
+
+PeripheralListCell::~PeripheralListCell()
+{
+    
+}
+
+void PeripheralListCell::refreshCell(std::pair<std::string, int> nameRSSI, ssize_t idx)
+{
+    
+    _name->setString(nameRSSI.first);
+    
+    _rssi->setString(StringUtils::format("%d", nameRSSI.second));
     
 }
