@@ -40,10 +40,14 @@ static char *my_rssi = "my_ssi";
 
     - (void) initCBBlueToothTest;
     - (void) scanTimeout:(NSTimer*)timer;
+    - (void) startBLEScan;
 
 @end
 
 #pragma C++ PART
+
+static CBBlueTooth* _bleShareInstance = nullptr;
+static bool _BLEAvalible = false;
 
 CBBlueTooth::CBBlueTooth() {
     _blueToothImpl = [[CBBlueToothTest alloc] init];
@@ -55,14 +59,31 @@ CBBlueTooth::~CBBlueTooth() {
     
 }
 
-CBBlueTooth *CBBlueTooth::create() {
-    CBBlueTooth *ret = new CBBlueTooth();
-    if (ret && ret->init())
-        ret->autorelease();
-    else
-        CC_SAFE_DELETE(ret);
-    return ret;
+CBBlueTooth* CBBlueTooth::getInstance()
+{
+    if (!_bleShareInstance)
+    {
+        _bleShareInstance = new (std::nothrow) CBBlueTooth();
+        CCASSERT(_bleShareInstance, "FATAL: Not enough memory");
+        _bleShareInstance->init();
+    }
+    
+    return _bleShareInstance;
 }
+
+void CBBlueTooth::startScanPeripheral()
+{
+    [(CBBlueToothTest *)_blueToothImpl startBLEScan];
+}
+
+//CBBlueTooth *CBBlueTooth::create() {
+//    CBBlueTooth *ret = new CBBlueTooth();
+//    if (ret && ret->init())
+//        ret->autorelease();
+//    else
+//        CC_SAFE_DELETE(ret);
+//    return ret;
+//}
 
 bool CBBlueTooth::init() {
     return true;
@@ -97,6 +118,20 @@ std::pair<std::string, int> CBBlueTooth::getPeripheralByIndex(ssize_t idx)
     NSLog(@"scanTimeout");
 }
 
+- (void) startBLEScan
+{
+    if (_BLEAvalible)
+    {
+        CBUUID *deviceInfo_uuid = [CBUUID UUIDWithString:DEVICE_UUID];
+        NSArray<CBUUID *> *uuidArray = @[deviceInfo_uuid];
+        
+        [_centralManager scanForPeripheralsWithServices:uuidArray options:nil];
+        [NSTimer scheduledTimerWithTimeInterval:20.0f target:self selector:@selector(scanTimeout:) userInfo:nil repeats:NO];
+    }
+    else
+        NSLog(@"State not avalible");
+}
+
 #pragma mark - CBCentralManagerDelegate
 
 - (void)centralManagerDidUpdateState:(nonnull CBCentralManager *)central {
@@ -118,15 +153,16 @@ std::pair<std::string, int> CBBlueTooth::getPeripheralByIndex(ssize_t idx)
             break;
         case CBManagerStatePoweredOn:
             NSLog(@"Bluetooth is currently powered on and available to use.");
-            //掃描指定device uuid, 帶入nil會找所有device
-            //有找到會調用 didDiscoverPeripheral
-            CBUUID *deviceInfo_uuid = [CBUUID UUIDWithString:DEVICE_UUID];
-            NSArray<CBUUID *> *uuidArray = @[deviceInfo_uuid];
-            
-            [_centralManager scanForPeripheralsWithServices:uuidArray options:nil];
-            //[_centralManager scanForPeripheralsWithServices:nil options:nil];
-            //可設定搜尋幾秒 但如果是指定device uuid的話就可以不用限制
-            [NSTimer scheduledTimerWithTimeInterval:20.0f target:self selector:@selector(scanTimeout:) userInfo:nil repeats:NO];
+            _BLEAvalible = true;
+//            //掃描指定device uuid, 帶入nil會找所有device
+//            //有找到會調用 didDiscoverPeripheral
+//            CBUUID *deviceInfo_uuid = [CBUUID UUIDWithString:DEVICE_UUID];
+//            NSArray<CBUUID *> *uuidArray = @[deviceInfo_uuid];
+//
+//            [_centralManager scanForPeripheralsWithServices:uuidArray options:nil];
+//            //[_centralManager scanForPeripheralsWithServices:nil options:nil];
+//            //可設定搜尋幾秒 但如果是指定device uuid的話就可以不用限制
+//            [NSTimer scheduledTimerWithTimeInterval:20.0f target:self selector:@selector(scanTimeout:) userInfo:nil repeats:NO];
             break;
     }
 }

@@ -25,8 +25,11 @@ bool PeripheralListLayer::init()
     _visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
-    _BLEView = CBBlueTooth::create();
-    this->addChild(_BLEView);
+    CBBlueTooth::getInstance();
+    CBBlueTooth::getInstance()->startScanPeripheral();
+    
+//    _BLEView = CBBlueTooth::create();
+//    this->addChild(_BLEView);
     
     Size viewSize = Size(_visibleSize.width/2, _visibleSize.height - 64);
     
@@ -81,7 +84,8 @@ TableViewCell* PeripheralListLayer::tableCellAtIndex(TableView *table, ssize_t i
         cell->autorelease();
         cell->setAnchorPoint(Vec2(0,0));
     }
-    std::pair<std::string, int> data = _BLEView->getPeripheralByIndex(idx);
+    //std::pair<std::string, int> data = _BLEView->getPeripheralByIndex(idx);
+    std::pair<std::string, int> data = CBBlueTooth::getInstance()->getPeripheralByIndex(idx);
     cell->refreshCell(data, idx);
     
     return cell;

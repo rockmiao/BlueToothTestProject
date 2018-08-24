@@ -26,8 +26,12 @@ public:
     CBBlueTooth();
     ~CBBlueTooth();
     
-    static CBBlueTooth* create();
+    static CBBlueTooth* getInstance();
+    
+//    static CBBlueTooth* create();
     bool init();
+    
+    void startScanPeripheral();
     
     std::pair<std::string, int> getPeripheralByIndex(ssize_t idx);
 };

@@ -22,7 +22,7 @@ private:
     TableView *_tableView;
     int _cellNumber;
     
-    CBBlueTooth *_BLEView;
+//    CBBlueTooth *_BLEView;
 public:
     static PeripheralListLayer *create();
     bool init();
