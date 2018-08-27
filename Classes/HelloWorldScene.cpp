@@ -61,20 +61,14 @@ bool HelloWorld::init()
     auto closeItem = MenuItemImage::create(
                                            "CloseNormal.png",
                                            "CloseSelected.png",
-                                           CC_CALLBACK_1(HelloWorld::menuCloseCallback, this));
+                                           [this](Ref *sender){
+                                               PeripheralListLayer *peripherals = PeripheralListLayer::create();
+                                               this->addChild(peripherals);
+                                           });
 
-    if (closeItem == nullptr ||
-        closeItem->getContentSize().width <= 0 ||
-        closeItem->getContentSize().height <= 0)
-    {
-        problemLoading("'CloseNormal.png' and 'CloseSelected.png'");
-    }
-    else
-    {
-        float x = origin.x + visibleSize.width - closeItem->getContentSize().width/2;
-        float y = origin.y + closeItem->getContentSize().height/2;
-        closeItem->setPosition(Vec2(x,y));
-    }
+    float x = origin.x + visibleSize.width - closeItem->getContentSize().width/2 - 20;
+    float y = origin.y + closeItem->getContentSize().height/2 + 20;
+    closeItem->setPosition(Vec2(x,y));
 
     // create menu, it's an autorelease object
     auto menu = Menu::create(closeItem, NULL);
@@ -86,9 +80,6 @@ bool HelloWorld::init()
 
     // add a label shows "Hello World"
     // create and initialize a label
-    
-    PeripheralListLayer *peripherals = PeripheralListLayer::create();
-    this->addChild(peripherals);
 
     auto label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
     if (label == nullptr)
@@ -106,6 +97,8 @@ bool HelloWorld::init()
         menu->addChild(blueToothTestBtn);
     }
 
+    CBBlueTooth::getInstance();
+    
     // add "HelloWorld" splash screen"
 //    auto sprite = Sprite::create("HelloWorld.png");
 //    if (sprite == nullptr)

@@ -41,6 +41,7 @@ static char *my_rssi = "my_ssi";
     - (void) initCBBlueToothTest;
     - (void) scanTimeout:(NSTimer*)timer;
     - (void) startBLEScan;
+    - (void) connectToSelectedPeripheral:(NSInteger)index;
 
 @end
 
@@ -76,14 +77,9 @@ void CBBlueTooth::startScanPeripheral()
     [(CBBlueToothTest *)_blueToothImpl startBLEScan];
 }
 
-//CBBlueTooth *CBBlueTooth::create() {
-//    CBBlueTooth *ret = new CBBlueTooth();
-//    if (ret && ret->init())
-//        ret->autorelease();
-//    else
-//        CC_SAFE_DELETE(ret);
-//    return ret;
-//}
+void CBBlueTooth::connectToSelectedPeripheral(ssize_t idx) {
+    [(CBBlueToothTest *)_blueToothImpl connectToSelectedPeripheral:(NSInteger)idx];
+}
 
 bool CBBlueTooth::init() {
     return true;
@@ -118,8 +114,7 @@ std::pair<std::string, int> CBBlueTooth::getPeripheralByIndex(ssize_t idx)
     NSLog(@"scanTimeout");
 }
 
-- (void) startBLEScan
-{
+- (void) startBLEScan {
     if (_BLEAvalible)
     {
         CBUUID *deviceInfo_uuid = [CBUUID UUIDWithString:DEVICE_UUID];
@@ -130,6 +125,12 @@ std::pair<std::string, int> CBBlueTooth::getPeripheralByIndex(ssize_t idx)
     }
     else
         NSLog(@"State not avalible");
+}
+
+- (void) connectToSelectedPeripheral:(NSInteger)index {
+    self.myPeripheral = _dataSource[index];
+    [_centralManager connectPeripheral:self.myPeripheral options:nil];
+    NSLog(@"連接到Peripheral: %@",self.myPeripheral);
 }
 
 #pragma mark - CBCentralManagerDelegate
@@ -196,9 +197,9 @@ std::pair<std::string, int> CBBlueTooth::getPeripheralByIndex(ssize_t idx)
     [peripheral setDelegate:self];
     
     //尋找主service跟電池的service
-    NSArray<CBUUID *> *uuidArray = @[[CBUUID UUIDWithString:MAIN_SERVICE_UUID],
-                                     [CBUUID UUIDWithString:BATTERY_UUID]];
-    [peripheral discoverServices:uuidArray];
+//    NSArray<CBUUID *> *uuidArray = @[[CBUUID UUIDWithString:MAIN_SERVICE_UUID],
+//                                     [CBUUID UUIDWithString:BATTERY_UUID]];
+    [peripheral discoverServices:nil];
 }
 
 //連接失敗
@@ -245,15 +246,15 @@ std::pair<std::string, int> CBBlueTooth::getPeripheralByIndex(ssize_t idx)
     }
     //這裏有可能對不同的 characteristic 進行不同的處理
     for (CBCharacteristic *characteristic  in service.characteristics) {
-        //打開Characteristic的notify, 當有notify回傳時會call didUpdateValueForCharacteristic
-        [peripheral setNotifyValue:YES forCharacteristic:characteristic];
+        //設置YES的話 會自動打開Characteristic的notify, 當有notify回傳時會call didUpdateValueForCharacteristic
+        [peripheral setNotifyValue:NO forCharacteristic:characteristic];
     }
     
-    //    //获取 Characteristic,读取数据
-    //    //会调用 didUpdateValueForCharacteristic 方法
-    //    for (CBCharacteristic *characteristic  in service.characteristics) {
-    //        [peripheral readValueForCharacteristic:characteristic];
-    //    }
+    //获取 Characteristic,读取数据
+    //会调用 didUpdateValueForCharacteristic 方法
+//    for (CBCharacteristic *characteristic  in service.characteristics) {
+//        [peripheral readValueForCharacteristic:characteristic];
+//    }
     //
     //    //搜索Characteristic的Descriptors，读到数据
     //    //会调用 didDiscoverDescriptorsForCharacteristic 方法
@@ -269,11 +270,7 @@ std::pair<std::string, int> CBBlueTooth::getPeripheralByIndex(ssize_t idx)
         NSLog(@"Error notificaiton state: %@",error.localizedDescription);
     }
     if (characteristic.isNotifying)
-        //通知開啟
-        NSLog(@"開啟 %@ 通知",characteristic);
-    else
-        //通知關閉
-        NSLog(@"關閉 %@ 通知",characteristic);
+        NSLog(@"Characteristic:%@ 開始發送通知",characteristic);
 }
 
 //获取characteristic的值

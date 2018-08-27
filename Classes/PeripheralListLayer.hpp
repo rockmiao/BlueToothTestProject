@@ -24,6 +24,8 @@ private:
     
 //    CBBlueTooth *_BLEView;
 public:
+    ~PeripheralListLayer();
+    
     static PeripheralListLayer *create();
     bool init();
     
@@ -41,6 +43,7 @@ public:
 
 class PeripheralListCell : public TableViewCell
 {
+    CC_SYNTHESIZE(ssize_t, _peripheralIdx, PeripheralIdx)
 private:
     ui::Scale9Sprite *_mark;
     Label *_name;

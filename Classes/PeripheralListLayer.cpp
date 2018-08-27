@@ -7,6 +7,11 @@
 
 #include "PeripheralListLayer.hpp"
 
+PeripheralListLayer::~PeripheralListLayer()
+{
+    Director::getInstance()->getEventDispatcher()->removeCustomEventListeners("NotifyRefreshDataList");
+}
+
 PeripheralListLayer *PeripheralListLayer::create()
 {
     PeripheralListLayer *ret = new PeripheralListLayer();
@@ -25,11 +30,7 @@ bool PeripheralListLayer::init()
     _visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
-    CBBlueTooth::getInstance();
     CBBlueTooth::getInstance()->startScanPeripheral();
-    
-//    _BLEView = CBBlueTooth::create();
-//    this->addChild(_BLEView);
     
     Size viewSize = Size(_visibleSize.width/2, _visibleSize.height - 64);
     
@@ -38,7 +39,6 @@ bool PeripheralListLayer::init()
     _tableView = TableView::create(this, viewSize, mainLayer);
     _tableView->setDirection(TableView::Direction::VERTICAL);
     _tableView->setVerticalFillOrder(TableView::VerticalFillOrder::TOP_DOWN);
-    //_tableView->setVisible(false);
     _tableView->setDelegate(this);
     _tableView->setPosition(_visibleSize.width/2 + origin.x - viewSize.width/2, _visibleSize.height/2 + origin.y - viewSize.height/2);
     this->addChild(_tableView);
@@ -57,7 +57,8 @@ bool PeripheralListLayer::init()
 
 void PeripheralListLayer::tableCellTouched(TableView* table, TableViewCell* cell)
 {
-    
+    ssize_t idx = ((PeripheralListCell*)cell)->getPeripheralIdx();
+    CBBlueTooth::getInstance()->connectToSelectedPeripheral(idx);
 }
 
 void PeripheralListLayer::tableCellHighlight(TableView* table, TableViewCell* cell)
@@ -100,6 +101,8 @@ ssize_t PeripheralListLayer::numberOfCellsInTableView(TableView *table)
 
 PeripheralListCell::PeripheralListCell()
 {
+    _peripheralIdx = 0;
+    
     _mark = ui::Scale9Sprite::create("bg_information6.png");
     _mark->setPreferredSize(Size(Director::getInstance()->getVisibleSize().width/2, 30));
     _mark->setAnchorPoint(Vec2(0, 0));
@@ -125,6 +128,7 @@ PeripheralListCell::~PeripheralListCell()
 
 void PeripheralListCell::refreshCell(std::pair<std::string, int> nameRSSI, ssize_t idx)
 {
+    _peripheralIdx = idx;
     
     _name->setString(nameRSSI.first);
     
