@@ -276,7 +276,7 @@ std::pair<std::string, int> CBBlueTooth::getPeripheralByIndex(ssize_t idx)
     //這裏可能要對不同的 characteristic 進行不同的處理 因為有些沒有notify, 有些沒有ReadValue
     for (CBCharacteristic *characteristic  in service.characteristics) {
         //設置YES的話 會自動打開Characteristic的notify, 當有notify回傳時會call didUpdateValueForCharacteristic
-        [peripheral setNotifyValue:NO forCharacteristic:characteristic];
+        [peripheral setNotifyValue:YES forCharacteristic:characteristic];
         
 //        CBUUID *getUuid = characteristic.UUID;
 //
@@ -332,7 +332,7 @@ std::pair<std::string, int> CBBlueTooth::getPeripheralByIndex(ssize_t idx)
         //self.imagaView.image = image;
         
         //取消訂閱
-        [peripheral setNotifyValue:YES forCharacteristic:characteristic];
+        [peripheral setNotifyValue:NO forCharacteristic:characteristic];
         
         //[peripheral w
         
