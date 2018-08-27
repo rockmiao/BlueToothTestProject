@@ -29,6 +29,8 @@ public:
     static PeripheralListLayer *create();
     bool init();
     
+    void notifyCharacteristicConnectedSendData(EventCustom *event);
+    
     //TableView
     virtual void scrollViewDidScroll(ScrollView* view) {};
     virtual void scrollViewDidZoom(ScrollView* view) {};

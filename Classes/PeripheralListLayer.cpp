@@ -50,7 +50,14 @@ bool PeripheralListLayer::init()
         _tableView->reloadData();
     });
     
+    Director::getInstance()->getEventDispatcher()->addCustomEventListener("NotifyCharacteristicConnected", CC_CALLBACK_1(PeripheralListLayer::notifyCharacteristicConnectedSendData, this));
+    
     return true;
+}
+
+void PeripheralListLayer::notifyCharacteristicConnectedSendData(EventCustom *event)
+{
+    CBBlueTooth::getInstance()->writeNotesToPeripheral();
 }
 
 #pragma TableViewDataSource

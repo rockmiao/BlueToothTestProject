@@ -10,6 +10,7 @@
 #import <BLESettingHeader.h>
 
 #include "CBBlueTooth.h"
+#include <fstream>
 
 @interface CBPeripheral (RSSI)
 
@@ -35,6 +36,7 @@ static char *my_rssi = "my_ssi";
 @interface CBBlueToothTest : NSObject<CBCentralManagerDelegate,CBPeripheralDelegate>
     @property (nonatomic, strong) CBCentralManager *centralManager;
     @property (nonatomic, strong) CBPeripheral *myPeripheral;
+    @property (nonatomic, strong) CBCharacteristic *writeValueCharacteristic;
     @property (nonatomic, strong) NSMutableArray *dataSource;
     @property (nonatomic, copy) NSMutableData *data;
 
@@ -42,6 +44,7 @@ static char *my_rssi = "my_ssi";
     - (void) scanTimeout:(NSTimer*)timer;
     - (void) startBLEScan;
     - (void) connectToSelectedPeripheral:(NSInteger)index;
+    - (void) writeNotesToPeripheral:(NSData *)data;
 
 @end
 
@@ -79,6 +82,27 @@ void CBBlueTooth::startScanPeripheral()
 
 void CBBlueTooth::connectToSelectedPeripheral(ssize_t idx) {
     [(CBBlueToothTest *)_blueToothImpl connectToSelectedPeripheral:(NSInteger)idx];
+}
+
+void CBBlueTooth::writeNotesToPeripheral()
+{
+    
+    std::ifstream inputStream;
+    inputStream.open(FileUtils::getInstance()->fullPathForFilename("test.sm").c_str( ));
+    std::string test = FileUtils::getInstance()->getStringFromFile("test.sm");
+    if (!inputStream.is_open())
+    {
+        std::string te = "fuck";
+    }
+    
+    ssize_t sizeD = test.length();
+    char *stringData = new char [sizeD + 1];
+    
+    std::strcpy(stringData, test.c_str());
+    
+    NSData *imageData = [NSData dataWithBytesNoCopy:stringData length:test.length() freeWhenDone:YES];
+    
+    [(CBBlueToothTest *)_blueToothImpl writeNotesToPeripheral:imageData];
 }
 
 bool CBBlueTooth::init() {
@@ -131,6 +155,11 @@ std::pair<std::string, int> CBBlueTooth::getPeripheralByIndex(ssize_t idx)
     self.myPeripheral = _dataSource[index];
     [_centralManager connectPeripheral:self.myPeripheral options:nil];
     NSLog(@"連接到Peripheral: %@",self.myPeripheral);
+}
+
+
+- (void) writeNotesToPeripheral:(NSData *)data {
+    [_myPeripheral writeValue:data forCharacteristic:_writeValueCharacteristic type:CBCharacteristicWriteType::CBCharacteristicWriteWithResponse];
 }
 
 #pragma mark - CBCentralManagerDelegate
@@ -244,15 +273,23 @@ std::pair<std::string, int> CBBlueTooth::getPeripheralByIndex(ssize_t idx)
         [self cleanup];
         return;
     }
-    //這裏有可能對不同的 characteristic 進行不同的處理
+    //這裏可能要對不同的 characteristic 進行不同的處理 因為有些沒有notify, 有些沒有ReadValue
     for (CBCharacteristic *characteristic  in service.characteristics) {
         //設置YES的話 會自動打開Characteristic的notify, 當有notify回傳時會call didUpdateValueForCharacteristic
         [peripheral setNotifyValue:NO forCharacteristic:characteristic];
+        
+//        CBUUID *getUuid = characteristic.UUID;
+//
+//        if ([getUuid isEqual:[CBUUID UUIDWithString:CHARACTERISTIC_NOTE_TOUCH_FEED_BACK_NOTIFIER_UUID]])
+//            [peripheral setNotifyValue:YES forCharacteristic:characteristic];
+//        else
+//            [peripheral setNotifyValue:NO forCharacteristic:characteristic];
     }
     
     //获取 Characteristic,读取数据
     //会调用 didUpdateValueForCharacteristic 方法
 //    for (CBCharacteristic *characteristic  in service.characteristics) {
+          //當你call沒有ReadValue的Characteristic 會出錯
 //        [peripheral readValueForCharacteristic:characteristic];
 //    }
     //
@@ -261,6 +298,7 @@ std::pair<std::string, int> CBBlueTooth::getPeripheralByIndex(ssize_t idx)
     //    for (CBCharacteristic *characteristic  in service.characteristics) {
     //        [peripheral discoverDescriptorsForCharacteristic:characteristic];
     //    }
+    
 }
 
 //notify相關
@@ -271,6 +309,11 @@ std::pair<std::string, int> CBBlueTooth::getPeripheralByIndex(ssize_t idx)
     }
     if (characteristic.isNotifying)
         NSLog(@"Characteristic:%@ 開始發送通知",characteristic);
+    else
+    {
+        _writeValueCharacteristic = characteristic;
+        Director::getInstance()->getEventDispatcher()->dispatchCustomEvent("NotifyCharacteristicConnected");
+    }
 }
 
 //获取characteristic的值
@@ -289,7 +332,7 @@ std::pair<std::string, int> CBBlueTooth::getPeripheralByIndex(ssize_t idx)
         //self.imagaView.image = image;
         
         //取消訂閱
-        [peripheral setNotifyValue:NO forCharacteristic:characteristic];
+        [peripheral setNotifyValue:YES forCharacteristic:characteristic];
         
         //[peripheral w
         
@@ -310,6 +353,10 @@ std::pair<std::string, int> CBBlueTooth::getPeripheralByIndex(ssize_t idx)
         }
     }
 }
+
+//傳送資料給Characteristic
+//- (void)writeValue:(NSData *)data forCharacteristic:(CBCharacteristic *)characteristic type:(CBCharacteristicWriteType)type {
+//}
 
 //訊號強度
 - (void)peripheral:(CBPeripheral *)peripheral didReadRSSI:(NSNumber *)RSSI error:(NSError *)error {

@@ -25,6 +25,7 @@
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
 #include "PeripheralListLayer.hpp"
+#include <fstream>
 
 USING_NS_CC;
 

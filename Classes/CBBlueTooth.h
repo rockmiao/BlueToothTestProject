@@ -32,6 +32,7 @@ public:
     
     void startScanPeripheral();
     void connectToSelectedPeripheral(ssize_t idx);
+    void writeNotesToPeripheral();
     
     std::pair<std::string, int> getPeripheralByIndex(ssize_t idx);
 };
