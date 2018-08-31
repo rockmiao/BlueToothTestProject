@@ -184,15 +184,6 @@ std::pair<std::string, int> CBBlueTooth::getPeripheralByIndex(ssize_t idx)
         case CBManagerStatePoweredOn:
             NSLog(@"Bluetooth is currently powered on and available to use.");
             _BLEAvalible = true;
-//            //掃描指定device uuid, 帶入nil會找所有device
-//            //有找到會調用 didDiscoverPeripheral
-//            CBUUID *deviceInfo_uuid = [CBUUID UUIDWithString:DEVICE_UUID];
-//            NSArray<CBUUID *> *uuidArray = @[deviceInfo_uuid];
-//
-//            [_centralManager scanForPeripheralsWithServices:uuidArray options:nil];
-//            //[_centralManager scanForPeripheralsWithServices:nil options:nil];
-//            //可設定搜尋幾秒 但如果是指定device uuid的話就可以不用限制
-//            [NSTimer scheduledTimerWithTimeInterval:20.0f target:self selector:@selector(scanTimeout:) userInfo:nil repeats:NO];
             break;
     }
 }
@@ -277,28 +268,7 @@ std::pair<std::string, int> CBBlueTooth::getPeripheralByIndex(ssize_t idx)
     for (CBCharacteristic *characteristic  in service.characteristics) {
         //設置YES的話 會自動打開Characteristic的notify, 當有notify回傳時會call didUpdateValueForCharacteristic
         [peripheral setNotifyValue:YES forCharacteristic:characteristic];
-        
-//        CBUUID *getUuid = characteristic.UUID;
-//
-//        if ([getUuid isEqual:[CBUUID UUIDWithString:CHARACTERISTIC_NOTE_TOUCH_FEED_BACK_NOTIFIER_UUID]])
-//            [peripheral setNotifyValue:YES forCharacteristic:characteristic];
-//        else
-//            [peripheral setNotifyValue:NO forCharacteristic:characteristic];
     }
-    
-    //获取 Characteristic,读取数据
-    //会调用 didUpdateValueForCharacteristic 方法
-//    for (CBCharacteristic *characteristic  in service.characteristics) {
-          //當你call沒有ReadValue的Characteristic 會出錯
-//        [peripheral readValueForCharacteristic:characteristic];
-//    }
-    //
-    //    //搜索Characteristic的Descriptors，读到数据
-    //    //会调用 didDiscoverDescriptorsForCharacteristic 方法
-    //    for (CBCharacteristic *characteristic  in service.characteristics) {
-    //        [peripheral discoverDescriptorsForCharacteristic:characteristic];
-    //    }
-    
 }
 
 //notify相關
@@ -327,17 +297,8 @@ std::pair<std::string, int> CBBlueTooth::getPeripheralByIndex(ssize_t idx)
     NSString *stringFromData = [[NSString alloc]initWithData:characteristic.value encoding:NSUTF8StringEncoding];
     
     if ([stringFromData isEqualToString:@"EOM"]) {
-        
-        //UIImage *image = [UIImage imageWithData:self.data];
-        //self.imagaView.image = image;
-        
         //取消訂閱
         [peripheral setNotifyValue:NO forCharacteristic:characteristic];
-        
-        //[peripheral w
-        
-        //中斷連接
-        //[_centralManager cancelPeripheralConnection:peripheral];
     }
     
     //[self.data appendData:characteristic.value];
@@ -353,10 +314,6 @@ std::pair<std::string, int> CBBlueTooth::getPeripheralByIndex(ssize_t idx)
         }
     }
 }
-
-//傳送資料給Characteristic
-//- (void)writeValue:(NSData *)data forCharacteristic:(CBCharacteristic *)characteristic type:(CBCharacteristicWriteType)type {
-//}
 
 //訊號強度
 - (void)peripheral:(CBPeripheral *)peripheral didReadRSSI:(NSNumber *)RSSI error:(NSError *)error {
