@@ -7,7 +7,7 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreBluetooth/CoreBluetooth.h>
-#import <BLESettingHeader.h>
+#import "BLESettingHeader.h"
 
 #include "CBBlueTooth.h"
 #include <fstream>
@@ -86,7 +86,6 @@ void CBBlueTooth::connectToSelectedPeripheral(ssize_t idx) {
 
 void CBBlueTooth::writeNotesToPeripheral()
 {
-    
     std::ifstream inputStream;
     inputStream.open(FileUtils::getInstance()->fullPathForFilename("test.sm").c_str( ));
     std::string test = FileUtils::getInstance()->getStringFromFile("test.sm");
