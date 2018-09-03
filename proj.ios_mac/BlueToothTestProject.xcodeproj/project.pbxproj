@@ -43,11 +43,12 @@
 		521A8EA919F11F5000D177D7 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 521A8EA819F11F5000D177D7 /* fonts */; };
 		521A8EAA19F11F5000D177D7 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 521A8EA819F11F5000D177D7 /* fonts */; };
 		52B47A471A53D09C004E4C60 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52B47A461A53D09B004E4C60 /* Security.framework */; };
-		7D65C016212F07EB00351300 /* PeripheralListLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7D65C014212F07EB00351300 /* PeripheralListLayer.cpp */; };
 		7DC0B219213BB2FE0046AE47 /* LobbyScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7DC0B217213BB2FE0046AE47 /* LobbyScene.cpp */; };
 		7DC0B21C213BB7B80046AE47 /* LayerInSceneManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7DC0B21A213BB7B80046AE47 /* LayerInSceneManager.cpp */; };
 		7DC0B222213BC1DB0046AE47 /* PushAnimLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7DC0B220213BC1DB0046AE47 /* PushAnimLayer.cpp */; };
 		7DC0B227213BC3370046AE47 /* LobbyMainLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7DC0B225213BC3370046AE47 /* LobbyMainLayer.cpp */; };
+		7DC0B22B213C14570046AE47 /* PeripheralListLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7DC0B22A213C14570046AE47 /* PeripheralListLayer.cpp */; };
+		7DC0B232213C2C000046AE47 /* MeteoDummyTouchLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7DC0B230213C2C000046AE47 /* MeteoDummyTouchLayer.cpp */; };
 		8262943E1AAF051F00CB7CF7 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8262943D1AAF051F00CB7CF7 /* Security.framework */; };
 		BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
 		BF1712471292920000B8313A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB412928DE900B8313A /* libz.dylib */; };
@@ -137,17 +138,19 @@
 		5087E78A17EB975400C73F5D /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		521A8EA819F11F5000D177D7 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
 		52B47A461A53D09B004E4C60 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/Security.framework; sourceTree = DEVELOPER_DIR; };
-		7D65C014212F07EB00351300 /* PeripheralListLayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PeripheralListLayer.cpp; sourceTree = "<group>"; };
-		7D65C015212F07EB00351300 /* PeripheralListLayer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PeripheralListLayer.hpp; sourceTree = "<group>"; };
 		7DC0B217213BB2FE0046AE47 /* LobbyScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LobbyScene.cpp; sourceTree = "<group>"; };
 		7DC0B218213BB2FE0046AE47 /* LobbyScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LobbyScene.h; sourceTree = "<group>"; };
 		7DC0B21A213BB7B80046AE47 /* LayerInSceneManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LayerInSceneManager.cpp; sourceTree = "<group>"; };
 		7DC0B21B213BB7B80046AE47 /* LayerInSceneManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LayerInSceneManager.h; sourceTree = "<group>"; };
-		7DC0B21E213BBE290046AE47 /* MeteoLayerBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeteoLayerBase.h; sourceTree = "<group>"; };
+		7DC0B21E213BBE290046AE47 /* MeteoChangeLayerBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeteoChangeLayerBase.h; sourceTree = "<group>"; };
 		7DC0B220213BC1DB0046AE47 /* PushAnimLayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PushAnimLayer.cpp; sourceTree = "<group>"; };
 		7DC0B221213BC1DB0046AE47 /* PushAnimLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PushAnimLayer.h; sourceTree = "<group>"; };
 		7DC0B225213BC3370046AE47 /* LobbyMainLayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LobbyMainLayer.cpp; sourceTree = "<group>"; };
 		7DC0B226213BC3370046AE47 /* LobbyMainLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LobbyMainLayer.h; sourceTree = "<group>"; };
+		7DC0B229213C14560046AE47 /* PeripheralListLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PeripheralListLayer.h; sourceTree = "<group>"; };
+		7DC0B22A213C14570046AE47 /* PeripheralListLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PeripheralListLayer.cpp; sourceTree = "<group>"; };
+		7DC0B230213C2C000046AE47 /* MeteoDummyTouchLayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MeteoDummyTouchLayer.cpp; sourceTree = "<group>"; };
+		7DC0B231213C2C000046AE47 /* MeteoDummyTouchLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeteoDummyTouchLayer.h; sourceTree = "<group>"; };
 		7DE7A9A9212EDC6C00C93BD8 /* BLESettingHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLESettingHeader.h; sourceTree = "<group>"; };
 		8262943D1AAF051F00CB7CF7 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		BF170DB012928DE900B8313A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -250,9 +253,9 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				1AC6FAE5180E9839004C840B /* cocos2d_libs.xcodeproj */,
 				46880B8319C43A87006E1F66 /* Classes */,
 				46880B7519C43A67006E1F66 /* Resources */,
-				1AC6FAE5180E9839004C840B /* cocos2d_libs.xcodeproj */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				1AF87B461F6F77D6007BE51C /* ios */,
 				503AE10617EB990700D1A890 /* mac */,
@@ -309,13 +312,12 @@
 			children = (
 				7DC0B216213BB2FE0046AE47 /* Scenes */,
 				7DC0B212213BB2EC0046AE47 /* NodeBaseFunction */,
+				7DC0B22C213C2B500046AE47 /* ToolBox */,
 				46880B8419C43A87006E1F66 /* AppDelegate.cpp */,
 				46880B8519C43A87006E1F66 /* AppDelegate.h */,
 				E9D187D720D899040026A71F /* CBBlueToothTest.mm */,
 				E9D187DA20D89DAE0026A71F /* CBBlueTooth.h */,
 				7DE7A9A9212EDC6C00C93BD8 /* BLESettingHeader.h */,
-				7D65C014212F07EB00351300 /* PeripheralListLayer.cpp */,
-				7D65C015212F07EB00351300 /* PeripheralListLayer.hpp */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -346,7 +348,7 @@
 			children = (
 				7DC0B21A213BB7B80046AE47 /* LayerInSceneManager.cpp */,
 				7DC0B21B213BB7B80046AE47 /* LayerInSceneManager.h */,
-				7DC0B21E213BBE290046AE47 /* MeteoLayerBase.h */,
+				7DC0B21E213BBE290046AE47 /* MeteoChangeLayerBase.h */,
 				7DC0B220213BC1DB0046AE47 /* PushAnimLayer.cpp */,
 				7DC0B221213BC1DB0046AE47 /* PushAnimLayer.h */,
 			);
@@ -374,10 +376,29 @@
 		7DC0B224213BC3090046AE47 /* LobbyMainLayer */ = {
 			isa = PBXGroup;
 			children = (
+				7DC0B228213C13AD0046AE47 /* PeripheralListLayer */,
 				7DC0B225213BC3370046AE47 /* LobbyMainLayer.cpp */,
 				7DC0B226213BC3370046AE47 /* LobbyMainLayer.h */,
 			);
 			path = LobbyMainLayer;
+			sourceTree = "<group>";
+		};
+		7DC0B228213C13AD0046AE47 /* PeripheralListLayer */ = {
+			isa = PBXGroup;
+			children = (
+				7DC0B22A213C14570046AE47 /* PeripheralListLayer.cpp */,
+				7DC0B229213C14560046AE47 /* PeripheralListLayer.h */,
+			);
+			path = PeripheralListLayer;
+			sourceTree = "<group>";
+		};
+		7DC0B22C213C2B500046AE47 /* ToolBox */ = {
+			isa = PBXGroup;
+			children = (
+				7DC0B230213C2C000046AE47 /* MeteoDummyTouchLayer.cpp */,
+				7DC0B231213C2C000046AE47 /* MeteoDummyTouchLayer.h */,
+			);
+			path = ToolBox;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -527,10 +548,11 @@
 				1AF87B781F6F77F7007BE51C /* AppController.mm in Sources */,
 				7DC0B222213BC1DB0046AE47 /* PushAnimLayer.cpp in Sources */,
 				1AF87B8B1F6F782A007BE51C /* RootViewController.mm in Sources */,
+				7DC0B232213C2C000046AE47 /* MeteoDummyTouchLayer.cpp in Sources */,
 				46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */,
 				1AF87B8A1F6F7822007BE51C /* main.m in Sources */,
-				7D65C016212F07EB00351300 /* PeripheralListLayer.cpp in Sources */,
 				E9D187D820D899040026A71F /* CBBlueToothTest.mm in Sources */,
+				7DC0B22B213C14570046AE47 /* PeripheralListLayer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

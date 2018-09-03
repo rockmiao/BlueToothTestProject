@@ -6,6 +6,8 @@
 //
 
 #include "LobbyMainLayer.h"
+#include "PeripheralListLayer/PeripheralListLayer.h"
+#include "../../../NodeBaseFunction/LayerInSceneManager.h"
 
 LobbyMainLayer* LobbyMainLayer::create() {
     LobbyMainLayer *ret = new LobbyMainLayer();
@@ -17,17 +19,61 @@ LobbyMainLayer* LobbyMainLayer::create() {
 }
 
 bool LobbyMainLayer::init() {
-    if (!Layer::init())
+    if (!PushAnimLayer::init())
         return false;
     
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    
+    Menu *menu = Menu::create();
+    menu->setPosition(Vec2::ZERO);
+    this->addChild(menu);
+    
+    //連接meteo
     Label *connectToMachine = Label::createWithTTF("Contect to Meteo", "fonts/Marker Felt.ttf", 18);
     connectToMachine->setColor(Color3B::BLACK);
-    connectToMachine->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-    connectToMachine->setPosition(Vec2(5, 5));
     
     MenuItemLabel *connectButton = MenuItemLabel::create(connectToMachine, [](Ref *sendor){
+        LayerInSceneManager *scene = dynamic_cast<LayerInSceneManager *>(Director::getInstance()->getRunningScene());
+        
+        if (scene)
+            scene->pushToLayer(PeripheralListLayer::create());
+    });
+    connectButton->setPosition(Vec2(5 + connectButton->getContentSize().width/2 * 1.2, 5 + connectButton->getContentSize().height/2 * 1.2));
+    menu->addChild(connectButton);
+    
+    //歌單
+    Label *songList = Label::createWithTTF("Song List", "fonts/Marker Felt.ttf", 24);
+    songList->setColor(Color3B(120, 120, 120));
+    
+    MenuItemLabel *songListButton = MenuItemLabel::create(songList, [](Ref *sendor){
         
     });
+    songListButton->setPosition(Vec2(visibleSize.width/2 + 30, visibleSize.height/2 + 60));
+    songListButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
+    menu->addChild(songListButton);
+    
+    //我的歌單
+    Label *store = Label::createWithTTF("Song Store", "fonts/Marker Felt.ttf", 24);
+    store->setColor(Color3B(120, 120, 120));
+    
+    MenuItemLabel *storeButton = MenuItemLabel::create(store, [](Ref *sendor){
+        
+    });
+    storeButton->setPosition(Vec2(visibleSize.width/2 + 80, visibleSize.height/2));
+    storeButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
+    menu->addChild(storeButton);
+    
+    //我的歌單
+    Label *mySongList = Label::createWithTTF("My Song List", "fonts/Marker Felt.ttf", 24);
+    mySongList->setColor(Color3B(120, 120, 120));
+    
+    MenuItemLabel *mySongListButton = MenuItemLabel::create(mySongList, [](Ref *sendor){
+        
+    });
+    mySongListButton->setPosition(Vec2(visibleSize.width/2 + 30, visibleSize.height/2 - 60));
+    mySongListButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
+    menu->addChild(mySongListButton);
+    
     
     return true;
 }

@@ -16,7 +16,7 @@ public:
     static LobbyMainLayer* create();
     virtual bool init();
     
-    //MeteoLayerBase
+    //MeteoChangeLayerBase
     virtual void layerWillAppear() {};
     virtual void layerDidAppear() {};
     virtual void layerWillDisappear() {};

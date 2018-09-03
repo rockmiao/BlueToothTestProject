@@ -7,6 +7,7 @@
 
 #include "LobbyScene.h"
 #include "LobbyMainLayer/LobbyMainLayer.h"
+#include "../../CBBlueTooth.h"
 
 Scene* LobbyScene::createScene() {
     return LobbyScene::create();
@@ -20,6 +21,7 @@ bool LobbyScene::init() {
     sceneBG->setPosition(_visibleOrigin);
     this->addChild(sceneBG, INT_MIN);
     
+    CBBlueTooth::getInstance();
     
     return true;
 }

@@ -1,21 +1,22 @@
 //
-//  PeripheralListLayer.hpp
+//  PeripheralListLayer.h
 //  BlueToothTestProject-mobile
 //
 //  Created by Ching-Miao Lin on 2018/8/23.
 //
 
-#ifndef PeripheralListLayer_hpp
-#define PeripheralListLayer_hpp
+#ifndef PeripheralListLayer_h
+#define PeripheralListLayer_h
 
 #include "cocos2d.h"
 #include "cocos-ext.h"
-#include "CBBlueTooth.h"
+#include "../../../../CBBlueTooth.h"
+#include "../../../../NodeBaseFunction/PushAnimLayer.h"
 
 USING_NS_CC;
 USING_NS_CC_EXT;
 
-class PeripheralListLayer : public Layer, public TableViewDelegate, public TableViewDataSource
+class PeripheralListLayer : public PushAnimLayer, public TableViewDelegate, public TableViewDataSource
 {
 private:
     Size _visibleSize;
@@ -41,6 +42,12 @@ public:
     virtual Size tableCellSizeForIndex(TableView *table, ssize_t idx);
     virtual TableViewCell* tableCellAtIndex(TableView *table, ssize_t idx);
     virtual ssize_t numberOfCellsInTableView(TableView *table);
+    
+    //MeteoChangeLayerBase
+    virtual void layerWillAppear() {};
+    virtual void layerDidAppear() {};
+    virtual void layerWillDisappear() {};
+    virtual void layerDidDisappear() {};
 };
 
 class PeripheralListCell : public TableViewCell
@@ -58,4 +65,4 @@ public:
     void refreshCell(std::pair<std::string, int> nameRSSI, ssize_t idx);
 };
 
-#endif /* PeripheralListLayer_hpp */
+#endif /* PeripheralListLayer_h */

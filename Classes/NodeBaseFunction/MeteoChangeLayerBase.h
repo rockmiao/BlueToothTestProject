@@ -1,5 +1,5 @@
 //
-//  MeteoLayerBase.h
+//  MeteoChangeLayerBase.h
 //  BlueToothTestProject-mobile
 //
 //  擁有出現/消失動畫的Layer
@@ -7,15 +7,11 @@
 //  Created by Ching-Miao Lin on 2018/9/2.
 //
 
-#ifndef MeteoLayerBase_h
-#define MeteoLayerBase_h
+#ifndef MeteoChangeLayerBase_h
+#define MeteoChangeLayerBase_h
 
-class MeteoLayerBase {
+class MeteoChangeLayerBase {
 public:
-    //出現/消失動畫
-    virtual void appearAnimation() = 0;
-    virtual void disAppearAnimation() = 0;
-    
     //畫面出現/消失
     virtual void layerWillAppear() = 0;
     virtual void layerDidAppear() = 0;
@@ -23,4 +19,4 @@ public:
     virtual void layerDidDisappear() = 0;
 };
 
-#endif /* MeteoLayerBase_h */
+#endif /* MeteoChangeLayerBase_h */

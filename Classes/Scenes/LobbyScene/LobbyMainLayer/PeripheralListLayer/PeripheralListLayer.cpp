@@ -5,7 +5,7 @@
 //  Created by Ching-Miao Lin on 2018/8/23.
 //
 
-#include "PeripheralListLayer.hpp"
+#include "PeripheralListLayer.h"
 
 PeripheralListLayer::~PeripheralListLayer()
 {
@@ -28,7 +28,11 @@ bool PeripheralListLayer::init()
         return false;
     
     _visibleSize = Director::getInstance()->getVisibleSize();
-    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    
+    Label *titleLabel = Label::createWithTTF("Meteo List Around You", "fonts/Marker Felt.ttf", 18);
+    titleLabel->setPosition(_visibleSize/2);
+    titleLabel->setColor(Color3B::BLACK);
+    this->addChild(titleLabel);
     
     CBBlueTooth::getInstance()->startScanPeripheral();
     
@@ -40,7 +44,7 @@ bool PeripheralListLayer::init()
     _tableView->setDirection(TableView::Direction::VERTICAL);
     _tableView->setVerticalFillOrder(TableView::VerticalFillOrder::TOP_DOWN);
     _tableView->setDelegate(this);
-    _tableView->setPosition(_visibleSize.width/2 + origin.x - viewSize.width/2, _visibleSize.height/2 + origin.y - viewSize.height/2);
+    _tableView->setPosition(_visibleSize.width/2 - viewSize.width/2, _visibleSize.height/2 - viewSize.height/2);
     this->addChild(_tableView);
     
     Director::getInstance()->getEventDispatcher()->addCustomEventListener("NotifyRefreshDataList", [=](EventCustom *event){
