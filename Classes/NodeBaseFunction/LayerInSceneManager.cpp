@@ -33,19 +33,72 @@ bool LayerInSceneManager::init(PushAnimLayer *firstLayerInScene) {
 }
 
 void LayerInSceneManager::popLayer(int popCount, bool animation) {
+    if (!_canChangeLayer)
+        return;
+    ssize_t layerCount = _pushLayerArray.size();
     
+    if (layerCount <= 1)
+        return;
+    
+    _canChangeLayer = false;
+    
+    if (popCount == -1 || popCount >= layerCount - 1)
+        popCount = layerCount - 1;
+    
+    PushAnimLayer *currentLayer = _pushLayerArray.back();
+    PushAnimLayer *goalLayer = _pushLayerArray.at(layerCount - 2);
+    
+    if (currentLayer && goalLayer) {
+        currentLayer->layerWillDisappear();
+        goalLayer->layerWillAppear();
+        
+        currentLayer->stopAllActions();
+        goalLayer->stopAllActions();
+        
+        float disappearTime = currentLayer->disappearAnimation(animation);
+        
+        this->runAction(Sequence::create(DelayTime::create(disappearTime) , CallFunc::create([=](){
+            currentLayer->getVisibleClippingNode()->setVisible(false);
+            goalLayer->getVisibleClippingNode()->setVisible(true);
+            float appearTime = goalLayer->appearAnimation(animation);
+            
+            goalLayer->runAction(Sequence::create(DelayTime::create(appearTime), CallFunc::create([this, popCount](){
+                this->removePopLayer(popCount);
+            }), NULL));
+        }), NULL));
+        
+        _touchDummy->setVisible(true);
+    }
 }
 
-void LayerInSceneManager::removePopLayer()
-{
-    
+void LayerInSceneManager::removePopLayer(int popCount) {
+    _canChangeLayer = true;
+    ssize_t pushLayerCount = _pushLayerArray.size();
+    if (pushLayerCount > 1) {
+        PushAnimLayer *disappearNode = _pushLayerArray.back();
+        PushAnimLayer *appearNode = _pushLayerArray.at(pushLayerCount - popCount - 1);
+        
+        if (disappearNode && appearNode) {
+            disappearNode->layerDidDisappear();
+            
+            for(int i = 0 ; i < popCount ; i++) {
+                auto lastNode = _pushLayerArray.back();
+                lastNode->removeFromParentAndCleanup(true);
+                lastNode = nullptr;
+                _pushLayerArray.pop_back();
+            }
+            
+            appearNode->layerDidAppear();
+            
+            _touchDummy->setVisible(false);
+        }
+    }
 }
 
 void LayerInSceneManager::pushToLayer(PushAnimLayer* nextLayer, bool animation) {
     _canChangeLayer = false;
     
-    if (nextLayer)
-    {
+    if (nextLayer) {
         PushAnimLayer *currentLayer = _pushLayerArray.back();
         
         ClippingNode *nextClippingNode = this->createVisibleClipping();
@@ -56,8 +109,7 @@ void LayerInSceneManager::pushToLayer(PushAnimLayer* nextLayer, bool animation) 
         
         _pushLayerArray.push_back(nextLayer);
         
-        if (currentLayer && nextLayer)
-        {
+        if (currentLayer && nextLayer) {
             //目前只針對要互相代替的兩個layer做; 之後再考慮要不要對他們所有的child做
             currentLayer->layerWillDisappear();
             nextLayer->layerWillAppear();
@@ -68,6 +120,7 @@ void LayerInSceneManager::pushToLayer(PushAnimLayer* nextLayer, bool animation) 
             float disappearTime = currentLayer->disappearAnimation(animation);
             
             this->runAction(Sequence::create(DelayTime::create(disappearTime) , CallFunc::create([=](){
+                currentLayer->getVisibleClippingNode()->setVisible(false);
                 nextClippingNode->setVisible(true);
                 float appearTime = nextLayer->appearAnimation(animation);
                 
@@ -81,17 +134,14 @@ void LayerInSceneManager::pushToLayer(PushAnimLayer* nextLayer, bool animation) 
     }
 }
 
-void LayerInSceneManager::hidePushLayer()
-{
+void LayerInSceneManager::hidePushLayer() {
     _canChangeLayer = true;
     
-    if (_pushLayerArray.size() >= 2)
-    {
+    if (_pushLayerArray.size() >= 2) {
         PushAnimLayer *nextLayer = _pushLayerArray.back();
         PushAnimLayer *currentLayer = _pushLayerArray.at(_pushLayerArray.size() - 2);
         
-        if (currentLayer && nextLayer)
-        {
+        if (currentLayer && nextLayer) {
             currentLayer->layerDidDisappear();
             nextLayer->layerDidAppear();
             

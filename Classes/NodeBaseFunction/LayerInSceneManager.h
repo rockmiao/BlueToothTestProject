@@ -35,7 +35,7 @@ private:
     
     ClippingNode *createVisibleClipping();
     
-    void removePopLayer();                          //當pop的時後 最後做完動畫要拿掉
+    void removePopLayer(int popCount);          //當pop的時後 最後做完動畫要拿掉
     void hidePushLayer();                           //當Push完的時後 前一個做完動畫要hide掉
     
 public:

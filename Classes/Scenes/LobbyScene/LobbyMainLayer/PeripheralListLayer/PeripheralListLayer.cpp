@@ -6,6 +6,7 @@
 //
 
 #include "PeripheralListLayer.h"
+#include "../../../../NodeBaseFunction/LayerInSceneManager.h"
 
 PeripheralListLayer::~PeripheralListLayer()
 {
@@ -27,16 +28,32 @@ bool PeripheralListLayer::init()
     if ( !Layer::init() )
         return false;
     
+    CBBlueTooth::getInstance()->startScanPeripheral();
+    
     _visibleSize = Director::getInstance()->getVisibleSize();
+    Size viewSize = Size(_visibleSize.width/2, _visibleSize.height - 64);
     
     Label *titleLabel = Label::createWithTTF("Meteo List Around You", "fonts/Marker Felt.ttf", 18);
-    titleLabel->setPosition(_visibleSize/2);
+    titleLabel->setPosition(Vec2(_visibleSize.width/2, _visibleSize.height - 50));
     titleLabel->setColor(Color3B::BLACK);
     this->addChild(titleLabel);
     
-    CBBlueTooth::getInstance()->startScanPeripheral();
+    Sprite *backButton[2];
+    for (int i = 0; i < 2; i++) {
+        backButton[i] = Sprite::create("BT_back.png");
+        backButton[i]->setColor(i == 0 ? Color3B(120, 120, 120) : Color3B(190, 190, 190));
+    }
+    Menu *menu = Menu::create();
+    menu->setPosition(Vec2::ZERO);
+    this->addChild(menu);
     
-    Size viewSize = Size(_visibleSize.width/2, _visibleSize.height - 64);
+    MenuItemSprite *backItem = MenuItemSprite::create(backButton[0], backButton[1], [=](Ref *sender){
+        ChangeLayerInterface *scene = dynamic_cast<ChangeLayerInterface *>(Director::getInstance()->getRunningScene());
+        if (scene)
+            scene->popLayer();
+    });
+    backItem->setPosition(Vec2(backItem->getContentSize().width/2 + 5, backItem->getContentSize().height/2 + 5));
+    menu->addChild(backItem);
     
     //TableView
     Layer *mainLayer = Layer::create();

@@ -59,6 +59,13 @@
 		D6B0611B1803AB670077942B /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6B0611A1803AB670077942B /* CoreMotion.framework */; };
 		E90F370A2133ECED0037337A /* test.sm in Resources */ = {isa = PBXBuildFile; fileRef = E90F37082133ECED0037337A /* test.sm */; };
 		E915C019212FEB4100DF0D8C /* bg_information6.png in Resources */ = {isa = PBXBuildFile; fileRef = E915C017212FEB4000DF0D8C /* bg_information6.png */; };
+		E98C688B213CE84E00AD33D7 /* MeteoShaders.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E98C6881213CE84E00AD33D7 /* MeteoShaders.cpp */; };
+		E98C688C213CE84E00AD33D7 /* MeteoShaderSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E98C6883213CE84E00AD33D7 /* MeteoShaderSprite.cpp */; };
+		E98C688D213CE84E00AD33D7 /* BrightenShader.frag in Resources */ = {isa = PBXBuildFile; fileRef = E98C6886213CE84E00AD33D7 /* BrightenShader.frag */; };
+		E98C688E213CE84E00AD33D7 /* ContrastShader.frag in Resources */ = {isa = PBXBuildFile; fileRef = E98C6887213CE84E00AD33D7 /* ContrastShader.frag */; };
+		E98C688F213CE84E00AD33D7 /* GaussianBlurShader.frag in Resources */ = {isa = PBXBuildFile; fileRef = E98C6888213CE84E00AD33D7 /* GaussianBlurShader.frag */; };
+		E98C6890213CE84E00AD33D7 /* LightningShader.frag in Resources */ = {isa = PBXBuildFile; fileRef = E98C6889213CE84E00AD33D7 /* LightningShader.frag */; };
+		E98C6892213D063D00AD33D7 /* BT_back.png in Resources */ = {isa = PBXBuildFile; fileRef = E98C6891213D063C00AD33D7 /* BT_back.png */; };
 		E9D187D820D899040026A71F /* CBBlueToothTest.mm in Sources */ = {isa = PBXBuildFile; fileRef = E9D187D720D899040026A71F /* CBBlueToothTest.mm */; };
 		E9D187DC20D8A2C00026A71F /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9D187DB20D8A2C00026A71F /* CoreBluetooth.framework */; };
 		ED545A7C1B68A1F400C3958E /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ED545A7B1B68A1F400C3958E /* libiconv.dylib */; };
@@ -162,6 +169,15 @@
 		D6B0611A1803AB670077942B /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/CoreMotion.framework; sourceTree = DEVELOPER_DIR; };
 		E90F37082133ECED0037337A /* test.sm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = test.sm; sourceTree = "<group>"; };
 		E915C017212FEB4000DF0D8C /* bg_information6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg_information6.png; sourceTree = "<group>"; };
+		E98C6881213CE84E00AD33D7 /* MeteoShaders.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MeteoShaders.cpp; sourceTree = "<group>"; };
+		E98C6882213CE84E00AD33D7 /* MeteoShaders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeteoShaders.h; sourceTree = "<group>"; };
+		E98C6883213CE84E00AD33D7 /* MeteoShaderSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MeteoShaderSprite.cpp; sourceTree = "<group>"; };
+		E98C6884213CE84E00AD33D7 /* MeteoShaderSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeteoShaderSprite.h; sourceTree = "<group>"; };
+		E98C6886213CE84E00AD33D7 /* BrightenShader.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = BrightenShader.frag; sourceTree = "<group>"; };
+		E98C6887213CE84E00AD33D7 /* ContrastShader.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ContrastShader.frag; sourceTree = "<group>"; };
+		E98C6888213CE84E00AD33D7 /* GaussianBlurShader.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = GaussianBlurShader.frag; sourceTree = "<group>"; };
+		E98C6889213CE84E00AD33D7 /* LightningShader.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = LightningShader.frag; sourceTree = "<group>"; };
+		E98C6891213D063C00AD33D7 /* BT_back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BT_back.png; sourceTree = "<group>"; };
 		E9D187D720D899040026A71F /* CBBlueToothTest.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CBBlueToothTest.mm; sourceTree = "<group>"; };
 		E9D187DA20D89DAE0026A71F /* CBBlueTooth.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CBBlueTooth.h; sourceTree = "<group>"; };
 		E9D187DB20D8A2C00026A71F /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.2.sdk/System/Library/Frameworks/CoreBluetooth.framework; sourceTree = DEVELOPER_DIR; };
@@ -295,6 +311,7 @@
 		46880B7519C43A67006E1F66 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				E98C6891213D063C00AD33D7 /* BT_back.png */,
 				E90F37082133ECED0037337A /* test.sm */,
 				E915C017212FEB4000DF0D8C /* bg_information6.png */,
 				521A8EA819F11F5000D177D7 /* fonts */,
@@ -395,10 +412,34 @@
 		7DC0B22C213C2B500046AE47 /* ToolBox */ = {
 			isa = PBXGroup;
 			children = (
+				E98C6880213CE84E00AD33D7 /* MeteoShader */,
 				7DC0B230213C2C000046AE47 /* MeteoDummyTouchLayer.cpp */,
 				7DC0B231213C2C000046AE47 /* MeteoDummyTouchLayer.h */,
 			);
 			path = ToolBox;
+			sourceTree = "<group>";
+		};
+		E98C6880213CE84E00AD33D7 /* MeteoShader */ = {
+			isa = PBXGroup;
+			children = (
+				E98C6881213CE84E00AD33D7 /* MeteoShaders.cpp */,
+				E98C6882213CE84E00AD33D7 /* MeteoShaders.h */,
+				E98C6883213CE84E00AD33D7 /* MeteoShaderSprite.cpp */,
+				E98C6884213CE84E00AD33D7 /* MeteoShaderSprite.h */,
+				E98C6885213CE84E00AD33D7 /* Shaders */,
+			);
+			path = MeteoShader;
+			sourceTree = "<group>";
+		};
+		E98C6885213CE84E00AD33D7 /* Shaders */ = {
+			isa = PBXGroup;
+			children = (
+				E98C6886213CE84E00AD33D7 /* BrightenShader.frag */,
+				E98C6887213CE84E00AD33D7 /* ContrastShader.frag */,
+				E98C6888213CE84E00AD33D7 /* GaussianBlurShader.frag */,
+				E98C6889213CE84E00AD33D7 /* LightningShader.frag */,
+			);
+			path = Shaders;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -509,15 +550,20 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E98C6892213D063D00AD33D7 /* BT_back.png in Resources */,
+				E98C688D213CE84E00AD33D7 /* BrightenShader.frag in Resources */,
+				E98C688F213CE84E00AD33D7 /* GaussianBlurShader.frag in Resources */,
 				46880B8119C43A67006E1F66 /* HelloWorld.png in Resources */,
 				1A88B2641FC3D9C9005C14AE /* Images.xcassets in Resources */,
 				46880B7D19C43A67006E1F66 /* CloseSelected.png in Resources */,
+				E98C6890213CE84E00AD33D7 /* LightningShader.frag in Resources */,
 				E90F370A2133ECED0037337A /* test.sm in Resources */,
 				521A8EA919F11F5000D177D7 /* fonts in Resources */,
 				3EACC98F19EE6D4300EB3C5E /* res in Resources */,
 				E915C019212FEB4100DF0D8C /* bg_information6.png in Resources */,
 				1AF87B891F6F781D007BE51C /* LaunchScreenBackground.png in Resources */,
 				46880B7B19C43A67006E1F66 /* CloseNormal.png in Resources */,
+				E98C688E213CE84E00AD33D7 /* ContrastShader.frag in Resources */,
 				1AF87B881F6F781D007BE51C /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -549,9 +595,11 @@
 				7DC0B222213BC1DB0046AE47 /* PushAnimLayer.cpp in Sources */,
 				1AF87B8B1F6F782A007BE51C /* RootViewController.mm in Sources */,
 				7DC0B232213C2C000046AE47 /* MeteoDummyTouchLayer.cpp in Sources */,
+				E98C688C213CE84E00AD33D7 /* MeteoShaderSprite.cpp in Sources */,
 				46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */,
 				1AF87B8A1F6F7822007BE51C /* main.m in Sources */,
 				E9D187D820D899040026A71F /* CBBlueToothTest.mm in Sources */,
+				E98C688B213CE84E00AD33D7 /* MeteoShaders.cpp in Sources */,
 				7DC0B22B213C14570046AE47 /* PeripheralListLayer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
