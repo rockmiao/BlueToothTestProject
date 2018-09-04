@@ -6,15 +6,13 @@
 //
 
 #include "PeripheralListLayer.h"
-#include "../../../../NodeBaseFunction/LayerInSceneManager.h"
+#include "../../../NodeBaseFunction/LayerInSceneManager.h"
 
-PeripheralListLayer::~PeripheralListLayer()
-{
+PeripheralListLayer::~PeripheralListLayer() {
     Director::getInstance()->getEventDispatcher()->removeCustomEventListeners("NotifyRefreshDataList");
 }
 
-PeripheralListLayer *PeripheralListLayer::create()
-{
+PeripheralListLayer *PeripheralListLayer::create() {
     PeripheralListLayer *ret = new PeripheralListLayer();
     if (ret && ret->init())
         ret->autorelease();
@@ -23,8 +21,7 @@ PeripheralListLayer *PeripheralListLayer::create()
     return ret;
 }
 
-bool PeripheralListLayer::init()
-{
+bool PeripheralListLayer::init() {
     if ( !Layer::init() )
         return false;
     
@@ -76,36 +73,30 @@ bool PeripheralListLayer::init()
     return true;
 }
 
-void PeripheralListLayer::notifyCharacteristicConnectedSendData(EventCustom *event)
-{
+void PeripheralListLayer::notifyCharacteristicConnectedSendData(EventCustom *event) {
     CBBlueTooth::getInstance()->writeNotesToPeripheral();
 }
 
 #pragma TableViewDataSource
 
-void PeripheralListLayer::tableCellTouched(TableView* table, TableViewCell* cell)
-{
+void PeripheralListLayer::tableCellTouched(TableView* table, TableViewCell* cell) {
     ssize_t idx = ((PeripheralListCell*)cell)->getPeripheralIdx();
     CBBlueTooth::getInstance()->connectToSelectedPeripheral(idx);
 }
 
-void PeripheralListLayer::tableCellHighlight(TableView* table, TableViewCell* cell)
-{
+void PeripheralListLayer::tableCellHighlight(TableView* table, TableViewCell* cell) {
     
 }
 
-void PeripheralListLayer::tableCellUnhighlight(TableView* table, TableViewCell* cell)
-{
+void PeripheralListLayer::tableCellUnhighlight(TableView* table, TableViewCell* cell) {
     
 }
 
-Size PeripheralListLayer::tableCellSizeForIndex(TableView *table, ssize_t idx)
-{
+Size PeripheralListLayer::tableCellSizeForIndex(TableView *table, ssize_t idx) {
     return Size(_visibleSize.width/2, 30);
 }
 
-TableViewCell* PeripheralListLayer::tableCellAtIndex(TableView *table, ssize_t idx)
-{
+TableViewCell* PeripheralListLayer::tableCellAtIndex(TableView *table, ssize_t idx) {
     PeripheralListCell *cell = dynamic_cast<PeripheralListCell*>(table->dequeueCell());
     if (!cell)
     {
@@ -120,15 +111,13 @@ TableViewCell* PeripheralListLayer::tableCellAtIndex(TableView *table, ssize_t i
     return cell;
 }
 
-ssize_t PeripheralListLayer::numberOfCellsInTableView(TableView *table)
-{
+ssize_t PeripheralListLayer::numberOfCellsInTableView(TableView *table) {
     return _cellNumber;
 }
 
 #pragma TableViewCell
 
-PeripheralListCell::PeripheralListCell()
-{
+PeripheralListCell::PeripheralListCell() {
     _peripheralIdx = 0;
     
     _mark = ui::Scale9Sprite::create("bg_information6.png");
@@ -149,13 +138,11 @@ PeripheralListCell::PeripheralListCell()
     this->addChild(_rssi);
 }
 
-PeripheralListCell::~PeripheralListCell()
-{
+PeripheralListCell::~PeripheralListCell() {
     
 }
 
-void PeripheralListCell::refreshCell(std::pair<std::string, int> nameRSSI, ssize_t idx)
-{
+void PeripheralListCell::refreshCell(std::pair<std::string, int> nameRSSI, ssize_t idx) {
     _peripheralIdx = idx;
     
     _name->setString(nameRSSI.first);

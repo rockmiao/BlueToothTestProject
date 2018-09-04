@@ -8,13 +8,14 @@
 #include "PushAnimLayer.h"
 
 #define SCALE_TIME 0.25
+#define ANIM_GAP 0.08
 
 inline void runAnimation(Node *node, float &time, float scale) {
 //    float from = scale;
 //    float to = !scale;
     node->setScale(scale);
     node->runAction(Sequence::create(DelayTime::create(time), ScaleTo::create(SCALE_TIME, !scale), NULL));
-    time += SCALE_TIME;
+    time += ANIM_GAP;
 }
 
 bool PushAnimLayer::init() {
@@ -38,7 +39,7 @@ float PushAnimLayer::appearAnimation(bool animation) {
             runAnimation(node, appearTime, 0);
         }
     }
-    return appearTime;
+    return appearTime + SCALE_TIME - ANIM_GAP;
 }
 
 float PushAnimLayer::disappearAnimation(bool animation) {
@@ -56,5 +57,5 @@ float PushAnimLayer::disappearAnimation(bool animation) {
             runAnimation(node, disappearTime, 1);
         }
     }
-    return disappearTime;
+    return disappearTime + SCALE_TIME - ANIM_GAP;
 }

@@ -6,7 +6,8 @@
 //
 
 #include "LobbyMainLayer.h"
-#include "PeripheralListLayer/PeripheralListLayer.h"
+#include "../../GameScene/GameScene.h"
+#include "../PeripheralListLayer/PeripheralListLayer.h"
 #include "../../../NodeBaseFunction/LayerInSceneManager.h"
 
 LobbyMainLayer* LobbyMainLayer::create() {
@@ -46,7 +47,7 @@ bool LobbyMainLayer::init() {
     songList->setColor(Color3B(120, 120, 120));
     
     MenuItemLabel *songListButton = MenuItemLabel::create(songList, [](Ref *sendor){
-        
+        Director::getInstance()->replaceScene(GameScene::createScene());
     });
     songListButton->setPosition(Vec2(visibleSize.width/2 + 30, visibleSize.height/2 + 60));
     songListButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);

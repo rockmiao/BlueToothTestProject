@@ -10,14 +10,13 @@
 
 #include "cocos2d.h"
 #include "cocos-ext.h"
-#include "../../../../CBBlueTooth.h"
-#include "../../../../NodeBaseFunction/PushAnimLayer.h"
+#include "../../../CBBlueTooth.h"
+#include "../../../NodeBaseFunction/PushAnimLayer.h"
 
 USING_NS_CC;
 USING_NS_CC_EXT;
 
-class PeripheralListLayer : public PushAnimLayer, public TableViewDelegate, public TableViewDataSource
-{
+class PeripheralListLayer : public PushAnimLayer, public TableViewDelegate, public TableViewDataSource {
 private:
     Size _visibleSize;
     TableView *_tableView;
@@ -50,8 +49,7 @@ public:
     virtual void layerDidDisappear() {};
 };
 
-class PeripheralListCell : public TableViewCell
-{
+class PeripheralListCell : public TableViewCell {
     CC_SYNTHESIZE(ssize_t, _peripheralIdx, PeripheralIdx)
 private:
     ui::Scale9Sprite *_mark;

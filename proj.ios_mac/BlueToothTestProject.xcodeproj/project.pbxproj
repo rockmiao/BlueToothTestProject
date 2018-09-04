@@ -66,6 +66,13 @@
 		E98C688F213CE84E00AD33D7 /* GaussianBlurShader.frag in Resources */ = {isa = PBXBuildFile; fileRef = E98C6888213CE84E00AD33D7 /* GaussianBlurShader.frag */; };
 		E98C6890213CE84E00AD33D7 /* LightningShader.frag in Resources */ = {isa = PBXBuildFile; fileRef = E98C6889213CE84E00AD33D7 /* LightningShader.frag */; };
 		E98C6892213D063D00AD33D7 /* BT_back.png in Resources */ = {isa = PBXBuildFile; fileRef = E98C6891213D063C00AD33D7 /* BT_back.png */; };
+		E9C89CB9213E20F5009CAE6F /* GameScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E9C89CB7213E20F5009CAE6F /* GameScene.cpp */; };
+		E9C89CBB213E4ED6009CAE6F /* 002.mid in Resources */ = {isa = PBXBuildFile; fileRef = E9C89CBA213E4ED6009CAE6F /* 002.mid */; };
+		E9C89CBF213E4F68009CAE6F /* GameMainLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E9C89CBD213E4F68009CAE6F /* GameMainLayer.cpp */; };
+		E9C89CC3213E632B009CAE6F /* RtMidi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E9C89CC2213E632B009CAE6F /* RtMidi.cpp */; };
+		E9C89CCC213E7C40009CAE6F /* CodeUtility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E9C89CCA213E7C40009CAE6F /* CodeUtility.cpp */; };
+		E9C89CCF213E7FAE009CAE6F /* MidiUtility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E9C89CCD213E7FAE009CAE6F /* MidiUtility.cpp */; };
+		E9C89CD2213E8411009CAE6F /* MeteoMidi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E9C89CD0213E8411009CAE6F /* MeteoMidi.cpp */; };
 		E9D187D820D899040026A71F /* CBBlueToothTest.mm in Sources */ = {isa = PBXBuildFile; fileRef = E9D187D720D899040026A71F /* CBBlueToothTest.mm */; };
 		E9D187DC20D8A2C00026A71F /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9D187DB20D8A2C00026A71F /* CoreBluetooth.framework */; };
 		ED545A7C1B68A1F400C3958E /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ED545A7B1B68A1F400C3958E /* libiconv.dylib */; };
@@ -178,6 +185,19 @@
 		E98C6888213CE84E00AD33D7 /* GaussianBlurShader.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = GaussianBlurShader.frag; sourceTree = "<group>"; };
 		E98C6889213CE84E00AD33D7 /* LightningShader.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = LightningShader.frag; sourceTree = "<group>"; };
 		E98C6891213D063C00AD33D7 /* BT_back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BT_back.png; sourceTree = "<group>"; };
+		E9C89CB7213E20F5009CAE6F /* GameScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GameScene.cpp; sourceTree = "<group>"; };
+		E9C89CB8213E20F5009CAE6F /* GameScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameScene.h; sourceTree = "<group>"; };
+		E9C89CBA213E4ED6009CAE6F /* 002.mid */ = {isa = PBXFileReference; lastKnownFileType = audio.midi; path = 002.mid; sourceTree = "<group>"; };
+		E9C89CBD213E4F68009CAE6F /* GameMainLayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GameMainLayer.cpp; sourceTree = "<group>"; };
+		E9C89CBE213E4F68009CAE6F /* GameMainLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameMainLayer.h; sourceTree = "<group>"; };
+		E9C89CC1213E632B009CAE6F /* RtMidi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RtMidi.h; sourceTree = "<group>"; };
+		E9C89CC2213E632B009CAE6F /* RtMidi.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RtMidi.cpp; sourceTree = "<group>"; };
+		E9C89CCA213E7C40009CAE6F /* CodeUtility.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CodeUtility.cpp; sourceTree = "<group>"; };
+		E9C89CCB213E7C40009CAE6F /* CodeUtility.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CodeUtility.h; sourceTree = "<group>"; };
+		E9C89CCD213E7FAE009CAE6F /* MidiUtility.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MidiUtility.cpp; sourceTree = "<group>"; };
+		E9C89CCE213E7FAE009CAE6F /* MidiUtility.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MidiUtility.h; sourceTree = "<group>"; };
+		E9C89CD0213E8411009CAE6F /* MeteoMidi.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MeteoMidi.cpp; sourceTree = "<group>"; };
+		E9C89CD1213E8411009CAE6F /* MeteoMidi.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeteoMidi.h; sourceTree = "<group>"; };
 		E9D187D720D899040026A71F /* CBBlueToothTest.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CBBlueToothTest.mm; sourceTree = "<group>"; };
 		E9D187DA20D89DAE0026A71F /* CBBlueTooth.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CBBlueTooth.h; sourceTree = "<group>"; };
 		E9D187DB20D8A2C00026A71F /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.2.sdk/System/Library/Frameworks/CoreBluetooth.framework; sourceTree = DEVELOPER_DIR; };
@@ -311,6 +331,7 @@
 		46880B7519C43A67006E1F66 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				E9C89CBA213E4ED6009CAE6F /* 002.mid */,
 				E98C6891213D063C00AD33D7 /* BT_back.png */,
 				E90F37082133ECED0037337A /* test.sm */,
 				E915C017212FEB4000DF0D8C /* bg_information6.png */,
@@ -375,6 +396,7 @@
 		7DC0B216213BB2FE0046AE47 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				E9C89CB5213E20C8009CAE6F /* GameScene */,
 				7DC0B223213BC2F90046AE47 /* LobbyScene */,
 			);
 			path = Scenes;
@@ -383,6 +405,7 @@
 		7DC0B223213BC2F90046AE47 /* LobbyScene */ = {
 			isa = PBXGroup;
 			children = (
+				7DC0B228213C13AD0046AE47 /* PeripheralListLayer */,
 				7DC0B224213BC3090046AE47 /* LobbyMainLayer */,
 				7DC0B217213BB2FE0046AE47 /* LobbyScene.cpp */,
 				7DC0B218213BB2FE0046AE47 /* LobbyScene.h */,
@@ -393,7 +416,6 @@
 		7DC0B224213BC3090046AE47 /* LobbyMainLayer */ = {
 			isa = PBXGroup;
 			children = (
-				7DC0B228213C13AD0046AE47 /* PeripheralListLayer */,
 				7DC0B225213BC3370046AE47 /* LobbyMainLayer.cpp */,
 				7DC0B226213BC3370046AE47 /* LobbyMainLayer.h */,
 			);
@@ -412,9 +434,16 @@
 		7DC0B22C213C2B500046AE47 /* ToolBox */ = {
 			isa = PBXGroup;
 			children = (
+				E9C89CC0213E631B009CAE6F /* RtMidi */,
 				E98C6880213CE84E00AD33D7 /* MeteoShader */,
 				7DC0B230213C2C000046AE47 /* MeteoDummyTouchLayer.cpp */,
 				7DC0B231213C2C000046AE47 /* MeteoDummyTouchLayer.h */,
+				E9C89CCA213E7C40009CAE6F /* CodeUtility.cpp */,
+				E9C89CCB213E7C40009CAE6F /* CodeUtility.h */,
+				E9C89CCD213E7FAE009CAE6F /* MidiUtility.cpp */,
+				E9C89CCE213E7FAE009CAE6F /* MidiUtility.h */,
+				E9C89CD0213E8411009CAE6F /* MeteoMidi.cpp */,
+				E9C89CD1213E8411009CAE6F /* MeteoMidi.h */,
 			);
 			path = ToolBox;
 			sourceTree = "<group>";
@@ -440,6 +469,34 @@
 				E98C6889213CE84E00AD33D7 /* LightningShader.frag */,
 			);
 			path = Shaders;
+			sourceTree = "<group>";
+		};
+		E9C89CB5213E20C8009CAE6F /* GameScene */ = {
+			isa = PBXGroup;
+			children = (
+				E9C89CBC213E4F51009CAE6F /* GameMainLayer */,
+				E9C89CB7213E20F5009CAE6F /* GameScene.cpp */,
+				E9C89CB8213E20F5009CAE6F /* GameScene.h */,
+			);
+			path = GameScene;
+			sourceTree = "<group>";
+		};
+		E9C89CBC213E4F51009CAE6F /* GameMainLayer */ = {
+			isa = PBXGroup;
+			children = (
+				E9C89CBD213E4F68009CAE6F /* GameMainLayer.cpp */,
+				E9C89CBE213E4F68009CAE6F /* GameMainLayer.h */,
+			);
+			path = GameMainLayer;
+			sourceTree = "<group>";
+		};
+		E9C89CC0213E631B009CAE6F /* RtMidi */ = {
+			isa = PBXGroup;
+			children = (
+				E9C89CC2213E632B009CAE6F /* RtMidi.cpp */,
+				E9C89CC1213E632B009CAE6F /* RtMidi.h */,
+			);
+			path = RtMidi;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -551,6 +608,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E98C6892213D063D00AD33D7 /* BT_back.png in Resources */,
+				E9C89CBB213E4ED6009CAE6F /* 002.mid in Resources */,
 				E98C688D213CE84E00AD33D7 /* BrightenShader.frag in Resources */,
 				E98C688F213CE84E00AD33D7 /* GaussianBlurShader.frag in Resources */,
 				46880B8119C43A67006E1F66 /* HelloWorld.png in Resources */,
@@ -590,15 +648,21 @@
 			files = (
 				7DC0B219213BB2FE0046AE47 /* LobbyScene.cpp in Sources */,
 				7DC0B227213BC3370046AE47 /* LobbyMainLayer.cpp in Sources */,
+				E9C89CCC213E7C40009CAE6F /* CodeUtility.cpp in Sources */,
 				7DC0B21C213BB7B80046AE47 /* LayerInSceneManager.cpp in Sources */,
 				1AF87B781F6F77F7007BE51C /* AppController.mm in Sources */,
+				E9C89CC3213E632B009CAE6F /* RtMidi.cpp in Sources */,
+				E9C89CB9213E20F5009CAE6F /* GameScene.cpp in Sources */,
 				7DC0B222213BC1DB0046AE47 /* PushAnimLayer.cpp in Sources */,
 				1AF87B8B1F6F782A007BE51C /* RootViewController.mm in Sources */,
 				7DC0B232213C2C000046AE47 /* MeteoDummyTouchLayer.cpp in Sources */,
 				E98C688C213CE84E00AD33D7 /* MeteoShaderSprite.cpp in Sources */,
 				46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */,
 				1AF87B8A1F6F7822007BE51C /* main.m in Sources */,
+				E9C89CD2213E8411009CAE6F /* MeteoMidi.cpp in Sources */,
+				E9C89CBF213E4F68009CAE6F /* GameMainLayer.cpp in Sources */,
 				E9D187D820D899040026A71F /* CBBlueToothTest.mm in Sources */,
+				E9C89CCF213E7FAE009CAE6F /* MidiUtility.cpp in Sources */,
 				E98C688B213CE84E00AD33D7 /* MeteoShaders.cpp in Sources */,
 				7DC0B22B213C14570046AE47 /* PeripheralListLayer.cpp in Sources */,
 			);
