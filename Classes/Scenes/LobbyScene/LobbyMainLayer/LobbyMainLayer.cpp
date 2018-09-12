@@ -6,8 +6,9 @@
 //
 
 #include "LobbyMainLayer.h"
-#include "../../GameScene/GameScene.h"
 #include "../PeripheralListLayer/PeripheralListLayer.h"
+#include "../../GameScene/GameScene.h"
+#include "../../../ToolBox/CodeUtility.h"
 #include "../../../NodeBaseFunction/LayerInSceneManager.h"
 
 LobbyMainLayer* LobbyMainLayer::create() {
@@ -53,13 +54,11 @@ bool LobbyMainLayer::init() {
     songListButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
     menu->addChild(songListButton);
     
-    //我的歌單
+    //商店
     Label *store = Label::createWithTTF("Song Store", "fonts/Marker Felt.ttf", 24);
     store->setColor(Color3B(120, 120, 120));
     
-    MenuItemLabel *storeButton = MenuItemLabel::create(store, [](Ref *sendor){
-        
-    });
+    MenuItemLabel *storeButton = MenuItemLabel::create(store, CC_CALLBACK_1(LobbyMainLayer::songStoreClick, this));
     storeButton->setPosition(Vec2(visibleSize.width/2 + 80, visibleSize.height/2));
     storeButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
     menu->addChild(storeButton);
@@ -77,4 +76,9 @@ bool LobbyMainLayer::init() {
     
     
     return true;
+}
+
+void LobbyMainLayer::songStoreClick(Ref *sender)
+{
+    CodeUtility::renameFiles("/Users/miaolin/miaolinWorkingSpace/wav_files", "German_Concert_", 9);
 }

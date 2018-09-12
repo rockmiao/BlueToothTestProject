@@ -12,6 +12,8 @@
 #include "../../../NodeBaseFunction/PushAnimLayer.h"
 
 class LobbyMainLayer : public PushAnimLayer {
+private:
+    void songStoreClick(Ref *sender);
 public:
     static LobbyMainLayer* create();
     virtual bool init();
