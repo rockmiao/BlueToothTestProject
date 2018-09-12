@@ -26,11 +26,27 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../Classes/ToolBox/miditest2/MidiFile.cpp"
-            timestampString = "557915326.484087"
+            timestampString = "557921501.351769"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "2570"
             endingLineNumber = "2570"
+            landmarkName = "MidiFile::extractMidiData(std::istream&amp; input, std::vector&lt;uchar&gt;&amp; array, uchar&amp; runningCommand)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../Classes/ToolBox/miditest2/MidiFile.cpp"
+            timestampString = "557921501.3521301"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "2712"
+            endingLineNumber = "2712"
             landmarkName = "MidiFile::extractMidiData(std::istream&amp; input, std::vector&lt;uchar&gt;&amp; array, uchar&amp; runningCommand)"
             landmarkType = "7">
          </BreakpointContent>

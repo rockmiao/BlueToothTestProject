@@ -28,10 +28,11 @@ bool GameMainLayer::init()
     if ( !PushAnimLayer::init())
         return false;
     
-    std::string name = "002.mid";
+    std::string name = "basket.mid";
     name = FileUtils::getInstance()->fullPathForFilename(name);
     MidiFile midifile;
     midifile.read(name);
+    midifile.splitTracks();
     midifile.doTimeAnalysis();
     midifile.linkNotePairs();
     

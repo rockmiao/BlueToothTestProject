@@ -81,6 +81,7 @@
 		E9C89CD2213E8411009CAE6F /* MeteoMidi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E9C89CD0213E8411009CAE6F /* MeteoMidi.cpp */; };
 		E9D187D820D899040026A71F /* CBBlueToothTest.mm in Sources */ = {isa = PBXBuildFile; fileRef = E9D187D720D899040026A71F /* CBBlueToothTest.mm */; };
 		E9D187DC20D8A2C00026A71F /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9D187DB20D8A2C00026A71F /* CoreBluetooth.framework */; };
+		E9DC1A1C214133B000D90E9A /* basket.mid in Resources */ = {isa = PBXBuildFile; fileRef = E9DC1A1A214133B000D90E9A /* basket.mid */; };
 		ED545A7C1B68A1F400C3958E /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ED545A7B1B68A1F400C3958E /* libiconv.dylib */; };
 		ED545A7E1B68A1FA00C3958E /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ED545A7D1B68A1FA00C3958E /* libiconv.dylib */; };
 /* End PBXBuildFile section */
@@ -219,6 +220,7 @@
 		E9D187D720D899040026A71F /* CBBlueToothTest.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CBBlueToothTest.mm; sourceTree = "<group>"; };
 		E9D187DA20D89DAE0026A71F /* CBBlueTooth.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CBBlueTooth.h; sourceTree = "<group>"; };
 		E9D187DB20D8A2C00026A71F /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.2.sdk/System/Library/Frameworks/CoreBluetooth.framework; sourceTree = DEVELOPER_DIR; };
+		E9DC1A1A214133B000D90E9A /* basket.mid */ = {isa = PBXFileReference; lastKnownFileType = audio.midi; path = basket.mid; sourceTree = "<group>"; };
 		ED545A7B1B68A1F400C3958E /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/usr/lib/libiconv.dylib; sourceTree = DEVELOPER_DIR; };
 		ED545A7D1B68A1FA00C3958E /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -350,6 +352,7 @@
 			isa = PBXGroup;
 			children = (
 				E9C89CBA213E4ED6009CAE6F /* 002.mid */,
+				E9DC1A1A214133B000D90E9A /* basket.mid */,
 				E98C6891213D063C00AD33D7 /* BT_back.png */,
 				E90F37082133ECED0037337A /* test.sm */,
 				E915C017212FEB4000DF0D8C /* bg_information6.png */,
@@ -654,6 +657,7 @@
 				46880B7D19C43A67006E1F66 /* CloseSelected.png in Resources */,
 				E98C6890213CE84E00AD33D7 /* LightningShader.frag in Resources */,
 				E90F370A2133ECED0037337A /* test.sm in Resources */,
+				E9DC1A1C214133B000D90E9A /* basket.mid in Resources */,
 				521A8EA919F11F5000D177D7 /* fonts in Resources */,
 				3EACC98F19EE6D4300EB3C5E /* res in Resources */,
 				E915C019212FEB4100DF0D8C /* bg_information6.png in Resources */,
