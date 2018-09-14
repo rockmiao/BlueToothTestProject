@@ -84,6 +84,11 @@ void CBBlueTooth::connectToSelectedPeripheral(ssize_t idx) {
     [(CBBlueToothTest *)_blueToothImpl connectToSelectedPeripheral:(NSInteger)idx];
 }
 
+void CBBlueTooth::cancelConnecttionToCurrentPeripheral() {
+    if (this->isPeripheralConnected())
+        [[(CBBlueToothTest *)_blueToothImpl centralManager] cancelPeripheralConnection:[(CBBlueToothTest *)_blueToothImpl myPeripheral]];
+}
+
 void CBBlueTooth::writeNotesToPeripheral()
 {
     std::ifstream inputStream;
@@ -108,6 +113,10 @@ bool CBBlueTooth::init() {
     return true;
 }
 
+bool CBBlueTooth::isPeripheralConnected() {
+    return [(CBBlueToothTest *)_blueToothImpl myPeripheral];
+}
+
 std::pair<std::string, int> CBBlueTooth::getPeripheralByIndex(ssize_t idx)
 {
     NSMutableArray *dataSource = ((CBBlueToothTest *)_blueToothImpl).dataSource;
@@ -124,6 +133,7 @@ std::pair<std::string, int> CBBlueTooth::getPeripheralByIndex(ssize_t idx)
 
 - (void) initCBBlueToothTest {
     _centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
+    _myPeripheral = nil;
     _dataSource = [[NSMutableArray arrayWithCapacity:0] retain];
     _data = [[[NSMutableData alloc] init] retain];
 }
@@ -247,7 +257,7 @@ std::pair<std::string, int> CBBlueTooth::getPeripheralByIndex(ssize_t idx)
         return;
     }
     
-    NSLog(@"服务: %@",peripheral.services);
+    NSLog(@"周圍設備: %@",peripheral.services);
     
     //掃描每个service的Characteristics
     for (CBService *service in peripheral.services) {
@@ -301,6 +311,12 @@ std::pair<std::string, int> CBBlueTooth::getPeripheralByIndex(ssize_t idx)
     }
     
     //[self.data appendData:characteristic.value];
+    //拿送過來的byte轉成int
+    int data;
+    [characteristic.value getBytes:&data length: sizeof(data)];
+    
+    cocos2d::Value eventValue(data);
+    Director::getInstance()->getEventDispatcher()->dispatchCustomEvent("NotifyStartPlayNote", &eventValue);
     
     NSLog(@"收到值: %@",stringFromData);
 }

@@ -25,7 +25,10 @@ bool PeripheralListLayer::init() {
     if ( !Layer::init() )
         return false;
     
-    CBBlueTooth::getInstance()->startScanPeripheral();
+    CBBlueTooth *bluetoothInstance = CBBlueTooth::getInstance();
+    
+    bluetoothInstance->cancelConnecttionToCurrentPeripheral();
+    bluetoothInstance->startScanPeripheral();
     
     _visibleSize = Director::getInstance()->getVisibleSize();
     Size viewSize = Size(_visibleSize.width/2, _visibleSize.height - 64);
@@ -58,7 +61,7 @@ bool PeripheralListLayer::init() {
     _tableView->setDirection(TableView::Direction::VERTICAL);
     _tableView->setVerticalFillOrder(TableView::VerticalFillOrder::TOP_DOWN);
     _tableView->setDelegate(this);
-    _tableView->setPosition(_visibleSize.width/2 - viewSize.width/2, _visibleSize.height/2 - viewSize.height/2);
+    _tableView->setPosition(_visibleSize.width/2 - viewSize.width/2, _visibleSize.height/2 - viewSize.height/2 - 30);
     this->addChild(_tableView);
     
     Director::getInstance()->getEventDispatcher()->addCustomEventListener("NotifyRefreshDataList", [=](EventCustom *event){

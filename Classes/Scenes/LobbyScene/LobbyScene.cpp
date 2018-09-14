@@ -8,6 +8,7 @@
 #include "LobbyScene.h"
 #include "LobbyMainLayer/LobbyMainLayer.h"
 #include "../../CBBlueTooth.h"
+#include "../../MeteoAudioSystem.h"
 
 Scene* LobbyScene::createScene() {
     return LobbyScene::create();
@@ -22,6 +23,7 @@ bool LobbyScene::init() {
     this->addChild(sceneBG, INT_MIN);
     
     CBBlueTooth::getInstance();
+    MeteoAudioSystem::getInstance();
     
     return true;
 }

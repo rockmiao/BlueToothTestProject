@@ -29,9 +29,11 @@ public:
     static CBBlueTooth* getInstance();
     
     bool init();
+    bool isPeripheralConnected();
     
     void startScanPeripheral();
     void connectToSelectedPeripheral(ssize_t idx);
+    void cancelConnecttionToCurrentPeripheral();
     void writeNotesToPeripheral();
     
     std::pair<std::string, int> getPeripheralByIndex(ssize_t idx);

@@ -59,6 +59,7 @@
 		D6B0611B1803AB670077942B /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6B0611A1803AB670077942B /* CoreMotion.framework */; };
 		E90F370A2133ECED0037337A /* test.sm in Resources */ = {isa = PBXBuildFile; fileRef = E90F37082133ECED0037337A /* test.sm */; };
 		E915C019212FEB4100DF0D8C /* bg_information6.png in Resources */ = {isa = PBXBuildFile; fileRef = E915C017212FEB4000DF0D8C /* bg_information6.png */; };
+		E94E7914214B7A6C00B3B8AA /* MeteoAudioSystem.mm in Sources */ = {isa = PBXBuildFile; fileRef = E94E7913214B7A6C00B3B8AA /* MeteoAudioSystem.mm */; };
 		E98C688B213CE84E00AD33D7 /* MeteoShaders.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E98C6881213CE84E00AD33D7 /* MeteoShaders.cpp */; };
 		E98C688C213CE84E00AD33D7 /* MeteoShaderSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E98C6883213CE84E00AD33D7 /* MeteoShaderSprite.cpp */; };
 		E98C688D213CE84E00AD33D7 /* BrightenShader.frag in Resources */ = {isa = PBXBuildFile; fileRef = E98C6886213CE84E00AD33D7 /* BrightenShader.frag */; };
@@ -183,6 +184,8 @@
 		D6B0611A1803AB670077942B /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/CoreMotion.framework; sourceTree = DEVELOPER_DIR; };
 		E90F37082133ECED0037337A /* test.sm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = test.sm; sourceTree = "<group>"; };
 		E915C017212FEB4000DF0D8C /* bg_information6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg_information6.png; sourceTree = "<group>"; };
+		E94E7913214B7A6C00B3B8AA /* MeteoAudioSystem.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = MeteoAudioSystem.mm; sourceTree = "<group>"; };
+		E94E7916214B7A9000B3B8AA /* MeteoAudioSystem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeteoAudioSystem.h; sourceTree = "<group>"; };
 		E98C6881213CE84E00AD33D7 /* MeteoShaders.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MeteoShaders.cpp; sourceTree = "<group>"; };
 		E98C6882213CE84E00AD33D7 /* MeteoShaders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeteoShaders.h; sourceTree = "<group>"; };
 		E98C6883213CE84E00AD33D7 /* MeteoShaderSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MeteoShaderSprite.cpp; sourceTree = "<group>"; };
@@ -377,6 +380,8 @@
 				E9D187D720D899040026A71F /* CBBlueToothTest.mm */,
 				E9D187DA20D89DAE0026A71F /* CBBlueTooth.h */,
 				7DE7A9A9212EDC6C00C93BD8 /* BLESettingHeader.h */,
+				E94E7913214B7A6C00B3B8AA /* MeteoAudioSystem.mm */,
+				E94E7916214B7A9000B3B8AA /* MeteoAudioSystem.h */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -712,6 +717,7 @@
 				E9C89CCF213E7FAE009CAE6F /* MidiUtility.cpp in Sources */,
 				E98C688B213CE84E00AD33D7 /* MeteoShaders.cpp in Sources */,
 				E9B1118E213F780100212231 /* Binasc.cpp in Sources */,
+				E94E7914214B7A6C00B3B8AA /* MeteoAudioSystem.mm in Sources */,
 				7DC0B22B213C14570046AE47 /* PeripheralListLayer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
