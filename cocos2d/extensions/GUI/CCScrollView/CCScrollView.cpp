@@ -37,12 +37,13 @@
 
 NS_CC_EXT_BEGIN
 
-#define SCROLL_DEACCEL_RATE  0.95f
+#define SCROLL_DEACCEL_RATE  0.96f
 #define SCROLL_DEACCEL_DIST  1.0f
-#define BOUNCE_DURATION      0.15f
-#define INSET_RATIO          0.2f
+#define BOUNCE_DURATION      0.25f
+#define INSET_RATIO          0.1f
 #define MOVE_INCH            7.0f/160.0f
 #define BOUNCE_BACK_FACTOR   0.35f
+#define ADJUST_ANIM_VELOCITY 1000           // 校正滑动动画速度
 
 static float convertDistanceFromPointToInch(float pointDis)
 {
@@ -66,13 +67,17 @@ ScrollView::ScrollView()
 , _scissorRestored(false)
 , _touchListener(nullptr)
 , _animatedScrollAction(nullptr)
+, _pageEnabled(false)
+, _adjustSpeed(ADJUST_ANIM_VELOCITY)
+, _prePage(0)
+, _pageCount(0)
 {
-
+    
 }
 
 ScrollView::~ScrollView()
 {
-
+    
 }
 
 ScrollView* ScrollView::create(Size size, Node* container/* = nullptr*/)
@@ -116,9 +121,9 @@ bool ScrollView::initWithViewSize(Size size, Node *container/* = nullptr*/)
             _container->setIgnoreAnchorPointForPosition(false);
             _container->setAnchorPoint(Vec2(0.0f, 0.0f));
         }
-
+        
         this->setViewSize(size);
-
+        
         setTouchEnabled(true);
         
         _touches.reserve(EventTouch::MAX_TOUCHES);
@@ -133,7 +138,7 @@ bool ScrollView::initWithViewSize(Size size, Node *container/* = nullptr*/)
         
         this->addChild(_container);
         _minScale = _maxScale = 1.0f;
-
+        
         
         return true;
     }
@@ -153,41 +158,45 @@ bool ScrollView::isNodeVisible(Node* node)
     
     Rect viewRect;
     
-    viewRect = Rect(-offset.x/scale, -offset.y/scale, size.width/scale, size.height/scale); 
+    viewRect = Rect(-offset.x/scale, -offset.y/scale, size.width/scale, size.height/scale);
     
     return viewRect.intersectsRect(node->getBoundingBox());
 }
 
-void ScrollView::pause(Ref* /*sender*/)
+void ScrollView::pause()
 {
+    Node::pause();
+    
     _container->pause();
-
+    
     auto& children = _container->getChildren();
     for(const auto &child : children) {
         child->pause();
     }
 }
 
-void ScrollView::resume(Ref* /*sender*/)
+void ScrollView::resume()
 {
+    Node::resume();
+    
     auto& children = _container->getChildren();
     for(const auto &child : children) {
         child->resume();
     }
-
+    
     _container->resume();
 }
 
 bool ScrollView::isTouchEnabled() const
 {
-	return _touchListener != nullptr;
+    return _touchListener != nullptr;
 }
 
 void ScrollView::setTouchEnabled(bool enabled)
 {
     _eventDispatcher->removeEventListener(_touchListener);
     _touchListener = nullptr;
-
+    
     if (enabled)
     {
         _touchListener = EventListenerTouchOneByOne::create();
@@ -220,7 +229,7 @@ void ScrollView::setContentOffset(Vec2 offset, bool animated/* = false*/)
     if (animated)
     { //animate scrolling
         this->setContentOffsetInDuration(offset, BOUNCE_DURATION);
-    } 
+    }
     else
     { //set the container position directly
         if (!_bounceable)
@@ -231,12 +240,12 @@ void ScrollView::setContentOffset(Vec2 offset, bool animated/* = false*/)
             offset.x = MAX(minOffset.x, MIN(maxOffset.x, offset.x));
             offset.y = MAX(minOffset.y, MIN(maxOffset.y, offset.y));
         }
-
+        
         _container->setPosition(offset);
-
+        
         if (_delegate != nullptr)
         {
-            _delegate->scrollViewDidScroll(this);   
+            _delegate->scrollViewDidScroll(this);
         }
     }
 }
@@ -274,7 +283,7 @@ void ScrollView::setZoomScale(float s)
         Vec2 oldCenter, newCenter;
         Vec2 center;
         
-        if (_touchLength == 0.0f) 
+        if (_touchLength == 0.0f)
         {
             center.set(_viewSize.width*0.5f, _viewSize.height*0.5f);
             center = this->convertToWorldSpace(center);
@@ -353,15 +362,15 @@ void ScrollView::setContainer(Node * pContainer)
     // lots of logic that use '_container'.
     if (nullptr == pContainer)
         return;
-
+    
     this->removeAllChildrenWithCleanup(true);
     this->_container = pContainer;
-
+    
     this->_container->setIgnoreAnchorPointForPosition(false);
     this->_container->setAnchorPoint(Vec2(0.0f, 0.0f));
-
+    
     this->addChild(this->_container);
-
+    
     this->setViewSize(this->_viewSize);
 }
 
@@ -387,7 +396,7 @@ void ScrollView::relocateContainer(bool animated)
     max = this->maxContainerOffset();
     
     oldPoint = _container->getPosition();
-
+    
     newX     = oldPoint.x;
     newY     = oldPoint.y;
     if (_direction == Direction::BOTH || _direction == Direction::HORIZONTAL)
@@ -395,17 +404,19 @@ void ScrollView::relocateContainer(bool animated)
         newX     = MAX(newX, min.x);
         newX     = MIN(newX, max.x);
     }
-
+    
     if (_direction == Direction::BOTH || _direction == Direction::VERTICAL)
     {
         newY     = MIN(newY, max.y);
         newY     = MAX(newY, min.y);
     }
-
-    if (newY != oldPoint.y || newX != oldPoint.x)
+    
+    if (fabsf(newY - oldPoint.y) > 0.001 || fabsf(newX - oldPoint.x) > 0.001)
     {
         this->setContentOffset(Vec2(newX, newY), animated);
     }
+    else if(_delegate)
+        _delegate->scrollViewDidEndScroll();
 }
 
 Vec2 ScrollView::maxContainerOffset()
@@ -473,6 +484,7 @@ void ScrollView::stoppedAnimatedScroll(Node * /*node*/)
     if (_delegate != nullptr)
     {
         _delegate->scrollViewDidScroll(this);
+        _delegate->scrollViewDidEndScroll();
     }
 }
 
@@ -483,7 +495,7 @@ void ScrollView::performedAnimatedScroll(float /*dt*/)
         this->unschedule(CC_SCHEDULE_SELECTOR(ScrollView::performedAnimatedScroll));
         return;
     }
-
+    
     if (_delegate != nullptr)
     {
         _delegate->scrollViewDidScroll(this);
@@ -493,7 +505,7 @@ void ScrollView::performedAnimatedScroll(float /*dt*/)
 
 const Size& ScrollView::getContentSize() const
 {
-	return _container->getContentSize();
+    return _container->getContentSize();
 }
 
 void ScrollView::setContentSize(const Size & size)
@@ -501,21 +513,21 @@ void ScrollView::setContentSize(const Size & size)
     if (this->getContainer() != nullptr)
     {
         this->getContainer()->setContentSize(size);
-		this->updateInset();
+        this->updateInset();
     }
 }
 
 void ScrollView::updateInset()
 {
-	if (this->getContainer() != nullptr)
-	{
-		_maxInset = this->maxContainerOffset();
+    if (this->getContainer() != nullptr)
+    {
+        _maxInset = this->maxContainerOffset();
         _maxInset.set(_maxInset.x + _viewSize.width * INSET_RATIO,
-			_maxInset.y + _viewSize.height * INSET_RATIO);
-		_minInset = this->minContainerOffset();
+                      _maxInset.y + _viewSize.height * INSET_RATIO);
+        _minInset = this->minContainerOffset();
         _minInset.set(_minInset.x - _viewSize.width * INSET_RATIO,
-			_minInset.y - _viewSize.height * INSET_RATIO);
-	}
+                      _minInset.y - _viewSize.height * INSET_RATIO);
+    }
 }
 
 /**
@@ -544,7 +556,10 @@ void ScrollView::removeChild(Node* node, bool cleanup)
 
 void ScrollView::removeAllChildrenWithCleanup(bool cleanup)
 {
-    _container->removeAllChildrenWithCleanup(cleanup);
+    if (_container != nullptr)
+    {
+        _container->removeAllChildrenWithCleanup(cleanup);
+    }
     Layer::removeAllChildrenWithCleanup(cleanup);
 }
 
@@ -580,10 +595,10 @@ void ScrollView::onBeforeDraw()
 {
     if (_clippingToBounds)
     {
-		_scissorRestored = false;
+        _scissorRestored = false;
         Rect frame = getViewRect();
         auto glview = Director::getInstance()->getOpenGLView();
-
+        
         if (glview->getVR() == nullptr) {
             if (glview->isScissorEnabled()) {
                 _scissorRestored = true;
@@ -639,9 +654,9 @@ void ScrollView::visit(Renderer *renderer, const Mat4 &parentTransform, uint32_t
     {
         return;
     }
-
+    
     uint32_t flags = processParentFlags(parentTransform, parentFlags);
-
+    
     // IMPORTANT:
     // To ease the migration to v3.0, we still support the Mat4 stack,
     // but it is deprecated and your code should not rely on it
@@ -649,15 +664,15 @@ void ScrollView::visit(Renderer *renderer, const Mat4 &parentTransform, uint32_t
     CCASSERT(nullptr != director, "Director is null when setting matrix stack");
     director->pushMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
     director->loadMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW, _modelViewTransform);
-
+    
     this->beforeDraw();
     bool visibleByCamera = isVisitableByVisitingCamera();
-
+    
     if (!_children.empty())
     {
         int i=0;
-		
-		// draw children zOrder < 0
+        
+        // draw children zOrder < 0
         for( ; i < _children.size(); i++ )
         {
             Node *child = _children.at(i);
@@ -670,37 +685,43 @@ void ScrollView::visit(Renderer *renderer, const Mat4 &parentTransform, uint32_t
                 break;
             }
         }
-		
-		// this draw
+        
+        // this draw
         if (visibleByCamera)
             this->draw(renderer, _modelViewTransform, flags);
         
         // draw children zOrder >= 0
         for( ; i < _children.size(); i++ )
         {
-			Node *child = _children.at(i);
-			child->visit(renderer, _modelViewTransform, flags);
+            Node *child = _children.at(i);
+            child->visit(renderer, _modelViewTransform, flags);
         }
     }
     else if (visibleByCamera)
     {
         this->draw(renderer, _modelViewTransform, flags);
     }
-
+    
     this->afterDraw();
-
+    
     director->popMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
 }
 
 bool ScrollView::onTouchBegan(Touch* touch, Event* /*event*/)
 {
-    if (!this->isVisible() || !this->hasVisibleParents())
+    if (!this->isVisible() || !this->hasVisibleParents() || _direction == Direction::NONE)
     {
         return false;
     }
     
+    //修正page mode時，瘋狂連續滑會壞掉的bug
+    if(_pageEnabled && this->isScheduled(CC_SCHEDULE_SELECTOR(ScrollView::onScrollEnd)))
+        return false;
+    
+    _beginOffset = getContentOffset();
+    
     Rect frame = getViewRect();
-
+    
     //dispatcher does not know about clipping. reject touches outside visible bounds.
     if (_touches.size() > 2 ||
         _touchMoved          ||
@@ -708,12 +729,12 @@ bool ScrollView::onTouchBegan(Touch* touch, Event* /*event*/)
     {
         return false;
     }
-
+    
     if (std::find(_touches.begin(), _touches.end(), touch) == _touches.end())
     {
         _touches.push_back(touch);
     }
-
+    
     if (_touches.size() == 1)
     { // scrolling
         _touchPoint     = this->convertTouchToNodeSpace(touch);
@@ -725,13 +746,13 @@ bool ScrollView::onTouchBegan(Touch* touch, Event* /*event*/)
     else if (_touches.size() == 2)
     {
         _touchPoint = (this->convertTouchToNodeSpace(_touches[0]).getMidpoint(
-                        this->convertTouchToNodeSpace(_touches[1])));
+                                                                              this->convertTouchToNodeSpace(_touches[1])));
         
         _touchLength = _container->convertTouchToNodeSpace(_touches[0]).getDistance(
-                       _container->convertTouchToNodeSpace(_touches[1]));
+                                                                                    _container->convertTouchToNodeSpace(_touches[1]));
         
         _dragging  = false;
-    } 
+    }
     return true;
 }
 
@@ -741,7 +762,7 @@ void ScrollView::onTouchMoved(Touch* touch, Event* /*event*/)
     {
         return;
     }
-
+    
     if (std::find(_touches.begin(), _touches.end(), touch) != _touches.end())
     {
         if (_touches.size() == 1 && _dragging)
@@ -751,7 +772,7 @@ void ScrollView::onTouchMoved(Touch* touch, Event* /*event*/)
             float newX, newY;
             
             frame = getViewRect();
-
+            
             newPoint     = this->convertTouchToNodeSpace(_touches[0]);
             moveDistance = newPoint - _touchPoint;
             
@@ -760,7 +781,7 @@ void ScrollView::onTouchMoved(Touch* touch, Event* /*event*/)
             {
                 dis = moveDistance.y;
                 float pos = _container->getPosition().y;
-                if (!(minContainerOffset().y <= pos && pos <= maxContainerOffset().y)) {
+                if (!(minContainerOffset().y <= pos && pos <= maxContainerOffset().y) && !_pageEnabled) {
                     moveDistance.y *= BOUNCE_BACK_FACTOR;
                 }
             }
@@ -768,7 +789,7 @@ void ScrollView::onTouchMoved(Touch* touch, Event* /*event*/)
             {
                 dis = moveDistance.x;
                 float pos = _container->getPosition().x;
-                if (!(minContainerOffset().x <= pos && pos <= maxContainerOffset().x)) {
+                if (!(minContainerOffset().x <= pos && pos <= maxContainerOffset().x) && !_pageEnabled) {
                     moveDistance.x *= BOUNCE_BACK_FACTOR;
                 }
             }
@@ -777,16 +798,16 @@ void ScrollView::onTouchMoved(Touch* touch, Event* /*event*/)
                 dis = sqrtf(moveDistance.x*moveDistance.x + moveDistance.y*moveDistance.y);
                 
                 float pos = _container->getPosition().y;
-                if (!(minContainerOffset().y <= pos && pos <= maxContainerOffset().y)) {
+                if (!(minContainerOffset().y <= pos && pos <= maxContainerOffset().y) && !_pageEnabled) {
                     moveDistance.y *= BOUNCE_BACK_FACTOR;
                 }
                 
                 pos = _container->getPosition().x;
-                if (!(minContainerOffset().x <= pos && pos <= maxContainerOffset().x)) {
+                if (!(minContainerOffset().x <= pos && pos <= maxContainerOffset().x) && !_pageEnabled) {
                     moveDistance.x *= BOUNCE_BACK_FACTOR;
                 }
             }
-
+            
             if (!_touchMoved && fabs(convertDistanceFromPointToInch(dis)) < MOVE_INCH )
             {
                 //CCLOG("Invalid movement, distance = [%f, %f], disInch = %f", moveDistance.x, moveDistance.y);
@@ -814,10 +835,10 @@ void ScrollView::onTouchMoved(Touch* touch, Event* /*event*/)
                     default:
                         break;
                 }
-
+                
                 newX     = _container->getPosition().x + moveDistance.x;
                 newY     = _container->getPosition().y + moveDistance.y;
-
+                
                 _scrollDistance = moveDistance;
                 this->setContentOffset(Vec2(newX, newY));
             }
@@ -825,7 +846,7 @@ void ScrollView::onTouchMoved(Touch* touch, Event* /*event*/)
         else if (_touches.size() == 2 && !_dragging)
         {
             const float len = _container->convertTouchToNodeSpace(_touches[0]).getDistance(
-                                            _container->convertTouchToNodeSpace(_touches[1]));
+                                                                                           _container->convertTouchToNodeSpace(_touches[1]));
             this->setZoomScale(this->getZoomScale()*len/_touchLength);
         }
     }
@@ -846,13 +867,36 @@ void ScrollView::onTouchEnded(Touch* touch, Event* /*event*/)
         {
             this->schedule(CC_SCHEDULE_SELECTOR(ScrollView::deaccelerateScrolling));
         }
+#if !CC_ENABLE_SCRIPT_BINDING
+        // 目前JS沒有這段 也忘了之前為什麼我們要加 先把JS系列的都不要走到這段
+        else if (_touches.size() == 1)
+        {
+            this->relocateContainer(true);
+        }
+#endif
         _touches.erase(touchIter);
-    } 
-
+    }
+    
     if (_touches.size() == 0)
     {
-        _dragging = false;    
+        _dragging = false;
         _touchMoved = false;
+    }
+    
+    if (_pageEnabled)
+    {
+        Vec2 endOffset = getContentOffset();
+        Vec2 touchPoint = touch->getLocation();
+        
+        if (_beginOffset.equals(endOffset))
+        {
+            int page = std::abs(endOffset.x / (int)_cellSize.width);
+            if (_delegate)
+                _delegate->scrollViewClick(endOffset, touchPoint, _container->getChildByTag(page), page);
+            return;
+        }
+        
+        adjustScrollView(_beginOffset, endOffset);
     }
 }
 
@@ -864,7 +908,7 @@ void ScrollView::onTouchCancelled(Touch* touch, Event* /*event*/)
     }
     
     auto touchIter = std::find(_touches.begin(), _touches.end(), touch);
-
+    
     if ( touchIter == _touches.end() )
         return;
     
@@ -872,8 +916,14 @@ void ScrollView::onTouchCancelled(Touch* touch, Event* /*event*/)
     
     if (_touches.size() == 0)
     {
-        _dragging = false;    
+        _dragging = false;
         _touchMoved = false;
+    }
+    
+    if (_pageEnabled)
+    {
+        Vec2 endOffset = getContentOffset();
+        adjustScrollView(_beginOffset, endOffset);
     }
 }
 
@@ -888,7 +938,7 @@ Rect ScrollView::getViewRect()
         scaleX *= p->getScaleX();
         scaleY *= p->getScaleY();
     }
-
+    
     // Support negative scaling. Not doing so causes intersectsRect calls
     // (eg: to check if the touch was within the bounds) to return false.
     // Note, Node::getScale will assert if X and Y scales are different.
@@ -900,7 +950,143 @@ Rect ScrollView::getViewRect()
         screenPos.y += _viewSize.height*scaleY;
         scaleY = -scaleY;
     }
-
+    
     return Rect(screenPos.x, screenPos.y, _viewSize.width*scaleX, _viewSize.height*scaleY);
 }
+
+
+#pragma mark - 新增
+
+void ScrollView::adjustScrollView(const Vec2& oBegin, const Vec2& oEnd)
+{
+    int nPage = std::abs(oBegin.x / (int)_cellSize.width);
+    
+    int nAdjustPage = 0;
+    
+    int nDis = oEnd.x-oBegin.x;
+    
+    if (nDis<-getViewSize().width/15)
+    {
+        nAdjustPage=nPage+1;
+    }
+    else if (nDis>getViewSize().width/15)
+    {
+        nAdjustPage=nPage-1;
+    }
+    else
+    {
+        nAdjustPage=nPage;
+    }
+    
+    nAdjustPage=MIN(nAdjustPage, _pageCount-1);
+    nAdjustPage=MAX(nAdjustPage, 0);
+    
+    scrollToPage(nAdjustPage);
+}
+
+void ScrollView::scrollToPage(int nPage)
+{
+    // 关闭CCScrollView中的自调整
+    unscheduleAllCallbacks();
+    
+    Vec2 oOffset = getContentOffset();
+    // 调整位置
+    Vec2 adjustPos= Vec2(-_cellSize.width*nPage,0);
+    
+    // 调整动画时间
+    float adjustAnimDelay= adjustPos.getDistance(oOffset)/_adjustSpeed;
+    
+    // 调整位置
+    setContentOffsetInDuration(adjustPos, adjustAnimDelay);
+    
+    if (nPage!=_prePage)
+    {
+        this->setTouchEnabled(false);
+        schedule(CC_SCHEDULE_SELECTOR(ScrollView::onScrollEnd),adjustAnimDelay,0,0.0f);
+        _prePage=nPage;
+        
+        if(_delegate)
+            _delegate->scrollViewMoveToPage(nPage);
+    }
+}
+
+void ScrollView::onScrollEnd(float fDelay)
+{
+    this->setTouchEnabled(true);
+    int nPage=getCurPage();
+    if(_delegate)
+        _delegate->scrollViewScrollEnd(_container->getChildByTag(nPage), nPage);
+}
+
+void ScrollView::scrollToNextPage()
+{
+    int nCurPage = getCurPage();
+    if (nCurPage >= _pageCount-1)
+    {
+        return ;
+    }
+    scrollToPage(nCurPage+1);
+}
+
+void ScrollView::scrollToPrePage()
+{
+    int nCurPage=getCurPage();
+    if (nCurPage<=0)
+    {
+        return ;
+    }
+    scrollToPage(nCurPage-1);
+}
+
+bool ScrollView::initWithContainer(ScrollViewDelegate* pDele, int nCount, const Size& oSize)
+{
+    _pageCount = nCount;
+    _cellSize = oSize;
+    _pageEnabled = true;
+    _delegate = NULL;
+    _bounceable = true;
+    _clippingToBounds = true;
+    
+    setDelegate(pDele);
+    
+    Layer* pContainer= Layer::create();
+    pContainer->setAnchorPoint(Vec2::ZERO);
+    pContainer->setPosition(Vec2::ZERO);
+    
+    for (int i=0 ; i<nCount ; ++i)
+    {
+        Node* pNode = Node::create();
+        pDele->scrollViewInitPage(pNode, i);
+        pNode->setPosition(Vec2(i*oSize.width, 0));
+        pNode->setTag(i);
+        pContainer->addChild(pNode);
+    }
+    
+    setContainer(pContainer);
+    setContentSize(Size(oSize.width*nCount, oSize.height));
+    
+    setTouchEnabled(true);
+    
+    return true;
+}
+
+ScrollView* ScrollView::createWithContainer(ScrollViewDelegate* pDele, int nCount, const Size& oSize)
+{
+    ScrollView* pRet = new ScrollView();
+    if (pRet && pRet->initWithContainer(pDele, nCount, oSize))
+    {
+        pRet->autorelease();
+    }
+    else
+    {
+        CC_SAFE_DELETE(pRet);
+    }
+    return pRet;
+}
+
+int ScrollView::getCurPage()
+{
+    return std::abs(getContentOffset().x / (int)_cellSize.width);
+}
+
 NS_CC_EXT_END

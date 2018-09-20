@@ -11,8 +11,6 @@
 #define ANIM_GAP 0.08
 
 inline void runAnimation(Node *node, float &time, float scale) {
-//    float from = scale;
-//    float to = !scale;
     node->setScale(scale);
     node->runAction(Sequence::create(DelayTime::create(time), ScaleTo::create(SCALE_TIME, !scale), NULL));
     time += ANIM_GAP;

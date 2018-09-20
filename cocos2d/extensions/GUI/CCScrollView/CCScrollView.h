@@ -60,6 +60,16 @@ public:
      * @lua NA
      */
     virtual void scrollViewDidZoom(ScrollView* view) {};
+    
+    virtual void scrollViewDidEndScroll() {};
+    //初始化每个单独Page的回调
+    virtual void scrollViewInitPage(Node* pPage,int nPage) {};
+    //点击一个Page的回调
+    virtual void scrollViewClick(const Vec2& oOffset, const Vec2& oPoint, Node* pPage, int nPage) {};
+    //每一次切换Page的回调
+    virtual void scrollViewScrollEnd(Node* pPage, int nPage) {};
+    //要換page
+    virtual void scrollViewMoveToPage(int page) {};
 };
 
 
@@ -85,7 +95,7 @@ public:
      * @return autoreleased scroll view object
      */
     static ScrollView* create(Size size, Node* container = NULL);
-
+    
     /**
      * Returns an autoreleased scroll view object.
      *
@@ -102,7 +112,7 @@ public:
      * @lua NA
      */
     virtual ~ScrollView();
-
+    
     bool init() override;
     /**
      * Returns a scroll view object
@@ -112,7 +122,7 @@ public:
      * @return scroll view object
      */
     bool initWithViewSize(Size size, Node* container = NULL);
-
+    
     /**
      * Sets a new content offset. It ignores max/min offset. It just sets what's given. (just like UIKit's UIScrollView)
      *
@@ -128,12 +138,12 @@ public:
      * @param offset    The new offset.
      * @param dt        The animation duration.
      */
-    void setContentOffsetInDuration(Vec2 offset, float dt); 
+    void setContentOffsetInDuration(Vec2 offset, float dt);
     /**
      * Halts the movement animation of the inner content started with setContentOffset() or setContentOffsetInDuration()
      */
     void stopAnimatedContentOffset();
-
+    
     void setZoomScale(float s);
     /**
      * Sets a new scale and does that for a predefined duration.
@@ -142,9 +152,9 @@ public:
      * @param animated  If true, scaling is animated
      */
     void setZoomScale(float s, bool animated);
-
+    
     float getZoomScale();
-
+    
     /**
      * Sets a new scale for container in a given duration.
      *
@@ -152,7 +162,7 @@ public:
      * @param dt    The animation duration
      */
     void setZoomScaleInDuration(float s, float dt);
-
+    
     /**
      * Set min scale
      *
@@ -169,7 +179,7 @@ public:
     void setMaxScale(float maxScale) {
         _maxScale = maxScale;
     }
-
+    
     /**
      * Returns the current container's minimum offset. You may want this while you animate scrolling by yourself
      */
@@ -177,7 +187,7 @@ public:
     /**
      * Returns the current container's maximum offset. You may want this while you animate scrolling by yourself
      */
-    Vec2 maxContainerOffset(); 
+    Vec2 maxContainerOffset();
     /**
      * Determines if a given node's bounding box is in visible bounds
      *
@@ -187,22 +197,20 @@ public:
     /**
      * Provided to make scroll view compatible with SWLayer's pause method
      */
-    using Layer::pause;  // fix warning
-    void pause(Ref* sender);
+    virtual void pause() override;
     /**
      * Provided to make scroll view compatible with SWLayer's resume method
      */
-    using Layer::resume; // fix warning
-    void resume(Ref* sender);
-
+    virtual void resume() override;
+    
     void setTouchEnabled(bool enabled);
-	bool isTouchEnabled() const;
+    bool isTouchEnabled() const;
     void setSwallowTouches(bool needSwallow);
     bool isDragging() const {return _dragging;}
     bool isTouchMoved() const { return _touchMoved; }
     bool isBounceable() const { return _bounceable; }
     void setBounceable(bool bBounceable) { _bounceable = bBounceable; }
-
+    
     /**
      * size to clip. Node boundingBox uses contentSize directly.
      * It's semantically different what it actually means to common scroll views.
@@ -210,10 +218,10 @@ public:
      */
     Size getViewSize() const { return _viewSize; }
     void setViewSize(Size size);
-
+    
     Node * getContainer();
     void setContainer(Node * pContainer);
-
+    
     /**
      * direction allowed to scroll. ScrollViewDirectionBoth by default.
      */
@@ -232,15 +240,15 @@ public:
      * @endcode
      */
     void setDelegate(ScrollViewDelegate* pDelegate) { _delegate = pDelegate; }
-
-	void updateInset();
-
+    
+    void updateInset();
+    
     /**
      * Determines whether it clips its children or not.
      */
     bool isClippingToBounds() { return _clippingToBounds; }
     void setClippingToBounds(bool bClippingToBounds) { _clippingToBounds = bClippingToBounds; }
-
+    
     virtual bool onTouchBegan(Touch *touch, Event *event) override;
     virtual void onTouchMoved(Touch *touch, Event *event) override;
     virtual void onTouchEnded(Touch *touch, Event *event) override;
@@ -258,7 +266,7 @@ public:
     using Node::addChild;
     virtual void addChild(Node * child, int zOrder, int tag) override;
     virtual void addChild(Node * child, int zOrder, const std::string &name) override;
-
+    
     virtual void removeAllChildren() override;
     virtual void removeAllChildrenWithCleanup(bool cleanup) override;
     virtual void removeChild(Node* child, bool cleanup = true) override;
@@ -266,7 +274,7 @@ public:
      * CCActionTweenDelegate
      */
     void updateTweenAction(float value, const std::string& key) override;
-
+    
     bool hasVisibleParents() const;
 protected:
     /**
@@ -274,7 +282,7 @@ protected:
      *
      * @param animated If true, relocation is animated
      */
-    void relocateContainer(bool animated);
+    virtual void relocateContainer(bool animated);
     /**
      * implements auto-scrolling behavior. change SCROLL_DEACCEL_RATE as needed to choose
      * deacceleration speed. it must be less than 1.0f.
@@ -305,25 +313,25 @@ protected:
      * Zoom handling
      */
     void handleZoom();
-
+    
     Rect getViewRect();
-
+    
     /**
      * scroll view delegate
      */
     ScrollViewDelegate* _delegate;
-
+    
     Direction _direction;
     /**
      * If YES, the view is being dragged.
      */
     bool _dragging;
-
+    
     /**
      * Content offset. Note that left-bottom point is the origin
      */
     Vec2 _contentOffset;
-
+    
     /**
      * Container holds scroll view contents, Sets the scrollable container object of the scroll view
      */
@@ -344,9 +352,9 @@ protected:
      * Determines whether the scroll view is allowed to bounce or not.
      */
     bool _bounceable;
-
+    
     bool _clippingToBounds;
-
+    
     /**
      * scroll speed
      */
@@ -384,11 +392,37 @@ protected:
     
     CustomCommand _beforeDrawCommand;
     CustomCommand _afterDrawCommand;
-
+    
     /**
      * Action created with setContentOffsetInDuration(), saved so it can be halted
      */
     Action* _animatedScrollAction;
+    
+    //新增
+private:
+    bool _pageEnabled;
+    
+protected:
+    void adjustScrollView(const Vec2& oBegin, const Vec2& oEnd);
+    
+    virtual void onScrollEnd(float fDelay);
+    
+protected:
+    int _pageCount;
+    CC_SYNTHESIZE(int, _prePage, PrePage);
+    Vec2 _beginOffset;
+    Size _cellSize;
+    float _adjustSpeed;
+    
+public:
+    bool initWithContainer(ScrollViewDelegate* pDele, int nCount, const Size& oSize);
+    static ScrollView* createWithContainer(ScrollViewDelegate* pDele, int nCount, const Size& oSize);
+    void scrollToPage(int nPage);
+    void scrollToNextPage();
+    void scrollToPrePage();
+    
+    int getCurPage();
+    void setAdjustSpeed(float var) { _adjustSpeed = var; }
 };
 
 

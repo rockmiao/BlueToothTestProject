@@ -291,7 +291,7 @@ std::pair<std::string, int> CBBlueTooth::getPeripheralByIndex(ssize_t idx)
     else
     {
         _writeValueCharacteristic = characteristic;
-        Director::getInstance()->getEventDispatcher()->dispatchCustomEvent("NotifyCharacteristicConnected");
+        //Director::getInstance()->getEventDispatcher()->dispatchCustomEvent("NotifyCharacteristicConnected");
     }
 }
 

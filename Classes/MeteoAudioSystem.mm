@@ -52,7 +52,6 @@ MeteoAudioSystem* MeteoAudioSystem::getInstance()
 void MeteoAudioSystem::notifyStartPlayNote(EventCustom *event) {
     if (event->getUserData()) {
         Value *eventValue = (Value*)event->getUserData();
-        int test = eventValue->asInt();
         uint8_t data = eventValue->asByte();
         
         bool hold = !(data%2);
@@ -117,34 +116,6 @@ bool MeteoAudioSystem::init() {
     
     if (![audioSession setActive:true error:nil])
         return;
-    
-    
-//    if engine.isRunning {
-//        print("audio engine already running")
-//        return
-//    }
-//    do {
-//        try engine.start()
-//        print("audio engine started")
-//    } catch {
-//        print("could not start audio engine")
-//        return
-//    }
-//
-//    let audioSession = AVAudioSession.sharedInstance()
-//    do {
-//        try audioSession.setCategory(AVAudioSessionCategoryPlayback,
-//                                     with: AVAudioSessionCategoryOptions.mixWithOthers)
-//    } catch {
-//        print("audioSession: couldn't set category \(error)")
-//        return
-//    }
-//    do {
-//        try audioSession.setActive(true)
-//    } catch {
-//        print("audioSession: couldn't set category active \(error)")
-//        return
-//    }
 }
 
 - (void) playNote:(uint8_t)key withVelocity:(uint8_t)withVelocity {

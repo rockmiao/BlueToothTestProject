@@ -224,6 +224,10 @@ public:
      * @endcode
      */
     void setDelegate(TableViewDelegate* pDelegate) { _tableViewDelegate = pDelegate; }
+    /**
+     * 
+     */
+    void setAutoAlignment(bool autoAlignment) { _isUsedAutoAlignment = autoAlignment; }
 
     /**
      * determines how cell is ordered and filled in the view.
@@ -287,7 +291,8 @@ protected:
     void _addCellIfNecessary(TableViewCell * cell);
 
     void _updateCellPositions();
-
+    
+    virtual void relocateContainer(bool animated) override;
 
     TableViewCell *_touchedCell;
     /**
@@ -325,7 +330,8 @@ protected:
     Direction _oldDirection;
 
     bool _isUsedCellsDirty;
-
+    
+    bool _isUsedAutoAlignment;
 public:
     void _updateContentSize();
 

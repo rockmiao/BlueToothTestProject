@@ -90,6 +90,7 @@ TableView::TableView()
 , _tableViewDelegate(nullptr)
 , _oldDirection(Direction::NONE)
 , _isUsedCellsDirty(false)
+, _isUsedAutoAlignment(false)
 {
 
 }
@@ -583,6 +584,61 @@ void TableView::scrollViewDidScroll(ScrollView* /*view*/)
     if(_tableViewDelegate != nullptr) {
         _tableViewDelegate->scrollViewDidScroll(this);
     }
+}
+
+void TableView::relocateContainer(bool animated)
+{
+    Vec2 oldPoint, min, max;
+    float newX, newY;
+    
+    min = this->minContainerOffset();
+    max = this->maxContainerOffset();
+    
+    oldPoint = _container->getPosition();
+    
+    newX     = oldPoint.x;
+    newY     = oldPoint.y;
+    
+    Vec2 centralPoint = -_container->getPosition() + this->getViewSize()/2;
+    long centerCellIdx = this->_indexFromOffset(centralPoint);
+    TableViewCell *cell = this->cellAtIndex(centerCellIdx);
+    if (!cell)
+        cell = this->cellAtIndex(_dataSource->numberOfCellsInTableView(this) - 1);
+    Vec2 pos = cell->getPosition();
+    
+    if (_direction == Direction::BOTH || _direction == Direction::HORIZONTAL)
+    {
+        if (_isUsedAutoAlignment)
+        {
+            newX += ((centralPoint.x - pos.x) - _dataSource->tableCellSizeForIndex(this, centerCellIdx).width/2);
+        }
+        else
+        {
+            newX     = MAX(newX, min.x);
+            newX     = MIN(newX, max.x);
+        }
+    }
+    
+    if (_direction == Direction::BOTH || _direction == Direction::VERTICAL)
+    {
+        if (_isUsedAutoAlignment)
+        {
+            newY += ((centralPoint.y - pos.y) - _dataSource->tableCellSizeForIndex(this, centerCellIdx).height/2);
+        }
+        else
+        {
+            newY     = MIN(newY, max.y);
+            newY     = MAX(newY, min.y);
+        }
+    }
+    
+    
+    if (fabsf(newY - oldPoint.y) > 0.001 || fabsf(newX - oldPoint.x) > 0.001)
+    {
+        this->setContentOffset(Vec2(newX, newY), animated);
+    }
+    else if(_delegate)
+        _delegate->scrollViewDidEndScroll();
 }
 
 void TableView::onTouchEnded(Touch *pTouch, Event *pEvent)
