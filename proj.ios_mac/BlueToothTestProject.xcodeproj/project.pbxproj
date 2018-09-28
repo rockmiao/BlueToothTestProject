@@ -58,6 +58,9 @@
 		D44C6210132DFF4E0009C878 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D44C620F132DFF4E0009C878 /* AudioToolbox.framework */; };
 		D6B0611B1803AB670077942B /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6B0611A1803AB670077942B /* CoreMotion.framework */; };
 		E90F370A2133ECED0037337A /* test.sm in Resources */ = {isa = PBXBuildFile; fileRef = E90F37082133ECED0037337A /* test.sm */; };
+		E91194E7215E00BA00B9AF73 /* test1.mid in Resources */ = {isa = PBXBuildFile; fileRef = E91194E5215E00BA00B9AF73 /* test1.mid */; };
+		E91194FB215E1C6600B9AF73 /* elements in Resources */ = {isa = PBXBuildFile; fileRef = E91194FA215E1C6600B9AF73 /* elements */; };
+		E91194FC215E1C6E00B9AF73 /* elements in Resources */ = {isa = PBXBuildFile; fileRef = E91194FA215E1C6600B9AF73 /* elements */; };
 		E915C019212FEB4100DF0D8C /* bg_information6.png in Resources */ = {isa = PBXBuildFile; fileRef = E915C017212FEB4000DF0D8C /* bg_information6.png */; };
 		E94E7914214B7A6C00B3B8AA /* MeteoAudioSystem.mm in Sources */ = {isa = PBXBuildFile; fileRef = E94E7913214B7A6C00B3B8AA /* MeteoAudioSystem.mm */; };
 		E95983D521536C490037456A /* MeteoCyclingTableView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E95983D321536C490037456A /* MeteoCyclingTableView.cpp */; };
@@ -185,6 +188,8 @@
 		D44C620F132DFF4E0009C878 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		D6B0611A1803AB670077942B /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/CoreMotion.framework; sourceTree = DEVELOPER_DIR; };
 		E90F37082133ECED0037337A /* test.sm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = test.sm; sourceTree = "<group>"; };
+		E91194E5215E00BA00B9AF73 /* test1.mid */ = {isa = PBXFileReference; lastKnownFileType = audio.midi; path = test1.mid; sourceTree = "<group>"; };
+		E91194FA215E1C6600B9AF73 /* elements */ = {isa = PBXFileReference; lastKnownFileType = folder; path = elements; sourceTree = "<group>"; };
 		E915C017212FEB4000DF0D8C /* bg_information6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg_information6.png; sourceTree = "<group>"; };
 		E94E7913214B7A6C00B3B8AA /* MeteoAudioSystem.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = MeteoAudioSystem.mm; sourceTree = "<group>"; };
 		E94E7916214B7A9000B3B8AA /* MeteoAudioSystem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeteoAudioSystem.h; sourceTree = "<group>"; };
@@ -361,10 +366,12 @@
 			isa = PBXGroup;
 			children = (
 				E9C89CBA213E4ED6009CAE6F /* 002.mid */,
+				E91194E5215E00BA00B9AF73 /* test1.mid */,
 				E9DC1A1A214133B000D90E9A /* basket.mid */,
 				E98C6891213D063C00AD33D7 /* BT_back.png */,
 				E90F37082133ECED0037337A /* test.sm */,
 				E915C017212FEB4000DF0D8C /* bg_information6.png */,
+				E91194FA215E1C6600B9AF73 /* elements */,
 				521A8EA819F11F5000D177D7 /* fonts */,
 				3EACC98E19EE6D4300EB3C5E /* res */,
 				46880B7619C43A67006E1F66 /* CloseNormal.png */,
@@ -679,9 +686,11 @@
 				1A88B2641FC3D9C9005C14AE /* Images.xcassets in Resources */,
 				46880B7D19C43A67006E1F66 /* CloseSelected.png in Resources */,
 				E98C6890213CE84E00AD33D7 /* LightningShader.frag in Resources */,
+				E91194E7215E00BA00B9AF73 /* test1.mid in Resources */,
 				E90F370A2133ECED0037337A /* test.sm in Resources */,
 				E9DC1A1C214133B000D90E9A /* basket.mid in Resources */,
 				521A8EA919F11F5000D177D7 /* fonts in Resources */,
+				E91194FB215E1C6600B9AF73 /* elements in Resources */,
 				3EACC98F19EE6D4300EB3C5E /* res in Resources */,
 				E915C019212FEB4100DF0D8C /* bg_information6.png in Resources */,
 				1AF87B891F6F781D007BE51C /* LaunchScreenBackground.png in Resources */,
@@ -701,6 +710,7 @@
 				521A8EAA19F11F5000D177D7 /* fonts in Resources */,
 				46880B7C19C43A67006E1F66 /* CloseNormal.png in Resources */,
 				46880B7E19C43A67006E1F66 /* CloseSelected.png in Resources */,
+				E91194FC215E1C6E00B9AF73 /* elements in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

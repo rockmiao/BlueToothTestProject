@@ -28,7 +28,19 @@ bool GameMainLayer::init()
     if ( !PushAnimLayer::init())
         return false;
     
-    std::string name = "basket.mid";
+//    Size visibleSize = Director::getInstance()->getVisibleSize();
+//
+//    Sprite *sheet = Sprite::create("elements/element-4-05.png");
+//    sheet->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
+//    sheet->setPosition(Vec2(0, visibleSize.height - 30));
+//    this->addChild(sheet);
+//
+//    Sprite *note = Sprite::create("elements/element-1-03.png");
+//    note->setPosition(Vec2(30, sheet->getContentSize().height/2 - note->getContentSize().height));
+//    sheet->addChild(note);
+    
+    
+    std::string name = "002.mid";
     name = FileUtils::getInstance()->fullPathForFilename(name);
     MidiFile midifile;
     midifile.read(name);
@@ -47,7 +59,7 @@ bool GameMainLayer::init()
             cout << '\t' << '\t' << dec << midifile[track][event].seconds;
             cout << '\t' << '\t' ;
             if (midifile[track][event].isNoteOn())
-                cout << midifile[track][event].getDurationInSeconds();
+                cout << midifile[track][event].getTickDuration();
             cout << '\t' << '\t' << hex;
             for (int i=0; i<midifile[track][event].size(); i++)
                 cout << (int)midifile[track][event][i] << ' ';

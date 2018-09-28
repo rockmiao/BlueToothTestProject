@@ -75,9 +75,11 @@ bool LobbySongListLayer::init() {
 void LobbySongListLayer::scrollViewDidScroll(ScrollView* view) {
     
 }
+
 void LobbySongListLayer::scrollViewDidZoom(ScrollView* view) {
     
 }
+
 void LobbySongListLayer::scrollViewDidEndScroll(void) {
     
 }

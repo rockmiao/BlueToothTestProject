@@ -2768,6 +2768,7 @@ ulong MidiFile::readVLValue(std::istream& input) {
 ulong MidiFile::unpackVLV(uchar a, uchar b, uchar c, uchar d, uchar e) {
 	uchar bytes[5] = {a, b, c, d, e};
 	int count = 0;
+    // 看有幾個連續byte大於0x7f
 	while ((count < 5) && (bytes[count] > 0x7f)) {
 		count++;
 	}
