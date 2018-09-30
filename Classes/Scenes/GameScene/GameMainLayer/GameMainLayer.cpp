@@ -40,7 +40,7 @@ bool GameMainLayer::init()
 //    sheet->addChild(note);
     
     
-    std::string name = "002.mid";
+    std::string name = "Steel Guitar.mid";
     name = FileUtils::getInstance()->fullPathForFilename(name);
     MidiFile midifile;
     midifile.read(name);
