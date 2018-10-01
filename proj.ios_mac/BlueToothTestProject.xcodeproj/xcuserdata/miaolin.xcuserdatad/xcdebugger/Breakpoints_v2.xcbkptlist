@@ -10,7 +10,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../Classes/ToolBox/miditest2/MidiFile.cpp"
-            timestampString = "559821922.276556"
+            timestampString = "560081131.9233021"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "2712"
@@ -26,7 +26,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../cocos2d/extensions/GUI/CCScrollView/CCScrollView.cpp"
-            timestampString = "559821922.2772011"
+            timestampString = "560081131.923732"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "448"
@@ -38,16 +38,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../Classes/ToolBox/miditest2/MidiFile.cpp"
-            timestampString = "559821922.277467"
+            timestampString = "560081131.924017"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2585"
-            endingLineNumber = "2585"
-            landmarkName = "MidiFile::extractMidiData(std::istream&amp; input, std::vector&lt;uchar&gt;&amp; array, uchar&amp; runningCommand)"
+            startingLineNumber = "942"
+            endingLineNumber = "942"
+            landmarkName = "MidiFile::splitTracks(void)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
