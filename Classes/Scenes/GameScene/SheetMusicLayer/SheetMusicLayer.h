@@ -12,8 +12,14 @@
 
 USING_NS_CC;
 
+typedef std::pair<int, int> SheetSignature;
+
 class SheetMusicLayer : public Layer {
 public:
+    SheetMusicLayer();
+    ~SheetMusicLayer();
+    
+    static SheetSignature getCurrentSignature();
     static SheetMusicLayer* create(const std::string &fileName);
     bool init(const std::string &fileName);
 };
