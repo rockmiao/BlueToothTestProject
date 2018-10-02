@@ -50,6 +50,7 @@
 		7DC0B22B213C14570046AE47 /* PeripheralListLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7DC0B22A213C14570046AE47 /* PeripheralListLayer.cpp */; };
 		7DC0B232213C2C000046AE47 /* MeteoDummyTouchLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7DC0B230213C2C000046AE47 /* MeteoDummyTouchLayer.cpp */; };
 		7DEB27C42160F94F002C3E64 /* Steel Guitar.mid in Resources */ = {isa = PBXBuildFile; fileRef = 7DEB27C22160F94F002C3E64 /* Steel Guitar.mid */; };
+		7DEB27CD21624CCE002C3E64 /* SheetNoteNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7DEB27CB21624CCE002C3E64 /* SheetNoteNode.cpp */; };
 		8262943E1AAF051F00CB7CF7 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8262943D1AAF051F00CB7CF7 /* Security.framework */; };
 		BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
 		BF1712471292920000B8313A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB412928DE900B8313A /* libz.dylib */; };
@@ -181,6 +182,8 @@
 		7DC0B231213C2C000046AE47 /* MeteoDummyTouchLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeteoDummyTouchLayer.h; sourceTree = "<group>"; };
 		7DE7A9A9212EDC6C00C93BD8 /* BLESettingHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLESettingHeader.h; sourceTree = "<group>"; };
 		7DEB27C22160F94F002C3E64 /* Steel Guitar.mid */ = {isa = PBXFileReference; lastKnownFileType = audio.midi; path = "Steel Guitar.mid"; sourceTree = "<group>"; };
+		7DEB27CB21624CCE002C3E64 /* SheetNoteNode.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SheetNoteNode.cpp; sourceTree = "<group>"; };
+		7DEB27CC21624CCE002C3E64 /* SheetNoteNode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SheetNoteNode.h; sourceTree = "<group>"; };
 		8262943D1AAF051F00CB7CF7 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		BF170DB012928DE900B8313A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		BF170DB412928DE900B8313A /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
@@ -492,9 +495,19 @@
 			path = ToolBox;
 			sourceTree = "<group>";
 		};
+		7DEB27C921624C49002C3E64 /* SheetNoteNode */ = {
+			isa = PBXGroup;
+			children = (
+				7DEB27CB21624CCE002C3E64 /* SheetNoteNode.cpp */,
+				7DEB27CC21624CCE002C3E64 /* SheetNoteNode.h */,
+			);
+			path = SheetNoteNode;
+			sourceTree = "<group>";
+		};
 		E92D6705216222810096D5D9 /* SheetMusicLayer */ = {
 			isa = PBXGroup;
 			children = (
+				7DEB27C921624C49002C3E64 /* SheetNoteNode */,
 				E92D6706216222A80096D5D9 /* SheetMusicLayer.cpp */,
 				E92D6707216222A80096D5D9 /* SheetMusicLayer.h */,
 			);
@@ -754,6 +767,7 @@
 				E9C89CD2213E8411009CAE6F /* MeteoMidi.cpp in Sources */,
 				E9C89CBF213E4F68009CAE6F /* GameMainLayer.cpp in Sources */,
 				E9B11191213F780100212231 /* Options.cpp in Sources */,
+				7DEB27CD21624CCE002C3E64 /* SheetNoteNode.cpp in Sources */,
 				E9D187D820D899040026A71F /* CBBlueToothTest.mm in Sources */,
 				E9C89CCF213E7FAE009CAE6F /* SheetMusicUtility.cpp in Sources */,
 				E98C688B213CE84E00AD33D7 /* MeteoShaders.cpp in Sources */,
