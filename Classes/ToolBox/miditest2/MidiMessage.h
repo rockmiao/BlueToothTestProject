@@ -26,6 +26,7 @@ typedef unsigned long  ulong;
 class MidiMessage : public std::vector<uchar> {
 
 	public:
+        bool           isAcrossBar;
 		               MidiMessage          (void);
 		               MidiMessage          (int command);
 		               MidiMessage          (int command, int p1);
