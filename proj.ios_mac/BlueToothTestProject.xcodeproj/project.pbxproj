@@ -65,6 +65,7 @@
 		E91194FC215E1C6E00B9AF73 /* elements in Resources */ = {isa = PBXBuildFile; fileRef = E91194FA215E1C6600B9AF73 /* elements */; };
 		E915C019212FEB4100DF0D8C /* bg_information6.png in Resources */ = {isa = PBXBuildFile; fileRef = E915C017212FEB4000DF0D8C /* bg_information6.png */; };
 		E92D6708216222A80096D5D9 /* SheetMusicLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E92D6706216222A80096D5D9 /* SheetMusicLayer.cpp */; };
+		E93DAD152166007200FAC7B0 /* paganini_etude_3_la_campanella.mid in Resources */ = {isa = PBXBuildFile; fileRef = E93DAD132166007100FAC7B0 /* paganini_etude_3_la_campanella.mid */; };
 		E94E7914214B7A6C00B3B8AA /* MeteoAudioSystem.mm in Sources */ = {isa = PBXBuildFile; fileRef = E94E7913214B7A6C00B3B8AA /* MeteoAudioSystem.mm */; };
 		E98C688B213CE84E00AD33D7 /* MeteoShaders.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E98C6881213CE84E00AD33D7 /* MeteoShaders.cpp */; };
 		E98C688C213CE84E00AD33D7 /* MeteoShaderSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E98C6883213CE84E00AD33D7 /* MeteoShaderSprite.cpp */; };
@@ -198,6 +199,7 @@
 		E915C017212FEB4000DF0D8C /* bg_information6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg_information6.png; sourceTree = "<group>"; };
 		E92D6706216222A80096D5D9 /* SheetMusicLayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SheetMusicLayer.cpp; sourceTree = "<group>"; };
 		E92D6707216222A80096D5D9 /* SheetMusicLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SheetMusicLayer.h; sourceTree = "<group>"; };
+		E93DAD132166007100FAC7B0 /* paganini_etude_3_la_campanella.mid */ = {isa = PBXFileReference; lastKnownFileType = audio.midi; path = paganini_etude_3_la_campanella.mid; sourceTree = "<group>"; };
 		E94E7913214B7A6C00B3B8AA /* MeteoAudioSystem.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = MeteoAudioSystem.mm; sourceTree = "<group>"; };
 		E94E7916214B7A9000B3B8AA /* MeteoAudioSystem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeteoAudioSystem.h; sourceTree = "<group>"; };
 		E98C6881213CE84E00AD33D7 /* MeteoShaders.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MeteoShaders.cpp; sourceTree = "<group>"; };
@@ -370,6 +372,7 @@
 		46880B7519C43A67006E1F66 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				E93DAD132166007100FAC7B0 /* paganini_etude_3_la_campanella.mid */,
 				7DEB27C22160F94F002C3E64 /* Steel Guitar.mid */,
 				E9C89CBA213E4ED6009CAE6F /* 002.mid */,
 				E91194E5215E00BA00B9AF73 /* test1.mid */,
@@ -720,6 +723,7 @@
 				E915C019212FEB4100DF0D8C /* bg_information6.png in Resources */,
 				1AF87B891F6F781D007BE51C /* LaunchScreenBackground.png in Resources */,
 				46880B7B19C43A67006E1F66 /* CloseNormal.png in Resources */,
+				E93DAD152166007200FAC7B0 /* paganini_etude_3_la_campanella.mid in Resources */,
 				E98C688E213CE84E00AD33D7 /* ContrastShader.frag in Resources */,
 				1AF87B881F6F781D007BE51C /* LaunchScreen.storyboard in Resources */,
 			);

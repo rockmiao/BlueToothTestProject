@@ -242,6 +242,9 @@ int MidiEvent::isLinked(void) const {
 //
 
 int MidiEvent::getTickDuration(void) const {
+    if (isAcrossBar && extendDuration != -1)
+        return extendDuration;
+    
 	const MidiEvent* mev = getLinkedEvent();
 	if (mev == NULL) {
 		return 0;

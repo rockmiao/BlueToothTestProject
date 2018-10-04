@@ -26,7 +26,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../cocos2d/extensions/GUI/CCScrollView/CCScrollView.cpp"
-            timestampString = "560258962.032503"
+            timestampString = "560338876.302333"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "448"
@@ -41,12 +41,28 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "../Classes/Scenes/GameScene/SheetMusicLayer/SheetMusicLayer.cpp"
-            timestampString = "560258962.032876"
+            filePath = "../Classes/Scenes/GameScene/SheetMusicLayer/SheetNoteNode/SheetNoteNode.cpp"
+            timestampString = "560338876.302722"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "92"
-            endingLineNumber = "92"
+            startingLineNumber = "39"
+            endingLineNumber = "39"
+            landmarkName = "SheetNoteNode::init(std::vector&lt;MidiEvent&gt; noteOnEvents)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../Classes/Scenes/GameScene/SheetMusicLayer/SheetMusicLayer.cpp"
+            timestampString = "560338876.30304"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "91"
+            endingLineNumber = "91"
             landmarkName = "SheetMusicLayer::init(const std::string &amp;fileName)"
             landmarkType = "7">
          </BreakpointContent>
@@ -58,12 +74,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../Classes/Scenes/GameScene/SheetMusicLayer/SheetMusicLayer.cpp"
-            timestampString = "560258962.033149"
+            timestampString = "560338876.303794"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "68"
-            endingLineNumber = "68"
-            landmarkName = "SheetMusicLayer::init(const std::string &amp;fileName)"
+            startingLineNumber = "142"
+            endingLineNumber = "142"
+            landmarkName = "SheetMusicLayer::getCurrentBarLengthInTick()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

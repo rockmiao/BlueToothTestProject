@@ -9,8 +9,12 @@
 #define SheetMusicLayer_h
 
 #include "cocos2d.h"
+#include "../../../ToolBox/miditest2/MidiFile.h"
 
 USING_NS_CC;
+
+using namespace smf;
+using namespace std;
 
 typedef std::pair<int, int> SheetSignature;
 
@@ -24,6 +28,7 @@ public:
     static SheetSignature getCurrentSignature();
     static SheetMusicLayer* create(const std::string &fileName);
     bool init(const std::string &fileName);
+    MidiEvent createAcrossNote(MidiEvent &target);
 };
 
 #endif /* SheetMusicLayer_h */
