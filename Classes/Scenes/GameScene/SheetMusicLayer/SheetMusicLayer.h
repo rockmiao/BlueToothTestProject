@@ -17,18 +17,28 @@ using namespace smf;
 using namespace std;
 
 typedef std::pair<int, int> SheetSignature;
+typedef std::pair<SheetSignature, int> SignatureWithBeginTick;
 
 class SheetMusicLayer : public Layer {
 private:
+    
+    //test function
+    void writeVLValue(long aValue, std::vector<uchar>& outdata);
 public:
     SheetMusicLayer();
     ~SheetMusicLayer();
     
-    static int getCurrentBarLengthInTick();
-    static SheetSignature getCurrentSignature();
     static SheetMusicLayer* create(const std::string &fileName);
     bool init(const std::string &fileName);
+    
+    static int getBarLengthBySignature(SheetSignature signature);
+    static int getCurrentBarLengthInTick();
+    static int getCurrentBarEndTicks(const int &currentTick, const SignatureWithBeginTick &signatureWithBeginTick);
+    
+    static SheetSignature getCurrentSignature();
+    
     MidiEvent createAcrossNote(MidiEvent &target);
+    void analyzeMetaTrack(std::unordered_map<int, SheetSignature> &signatureStructure, MidiEventList list);
 };
 
 #endif /* SheetMusicLayer_h */
