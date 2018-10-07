@@ -43,6 +43,7 @@
 		521A8EA919F11F5000D177D7 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 521A8EA819F11F5000D177D7 /* fonts */; };
 		521A8EAA19F11F5000D177D7 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 521A8EA819F11F5000D177D7 /* fonts */; };
 		52B47A471A53D09C004E4C60 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52B47A461A53D09B004E4C60 /* Security.framework */; };
+		7D1BEB9B2168DB20006D421E /* test3.mid in Resources */ = {isa = PBXBuildFile; fileRef = 7D1BEB992168DB1F006D421E /* test3.mid */; };
 		7DC0B219213BB2FE0046AE47 /* LobbyScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7DC0B217213BB2FE0046AE47 /* LobbyScene.cpp */; };
 		7DC0B21C213BB7B80046AE47 /* LayerInSceneManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7DC0B21A213BB7B80046AE47 /* LayerInSceneManager.cpp */; };
 		7DC0B222213BC1DB0046AE47 /* PushAnimLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7DC0B220213BC1DB0046AE47 /* PushAnimLayer.cpp */; };
@@ -169,6 +170,7 @@
 		5087E78A17EB975400C73F5D /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		521A8EA819F11F5000D177D7 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
 		52B47A461A53D09B004E4C60 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/Security.framework; sourceTree = DEVELOPER_DIR; };
+		7D1BEB992168DB1F006D421E /* test3.mid */ = {isa = PBXFileReference; lastKnownFileType = audio.midi; path = test3.mid; sourceTree = "<group>"; };
 		7DC0B217213BB2FE0046AE47 /* LobbyScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LobbyScene.cpp; sourceTree = "<group>"; };
 		7DC0B218213BB2FE0046AE47 /* LobbyScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LobbyScene.h; sourceTree = "<group>"; };
 		7DC0B21A213BB7B80046AE47 /* LayerInSceneManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LayerInSceneManager.cpp; sourceTree = "<group>"; };
@@ -374,6 +376,7 @@
 		46880B7519C43A67006E1F66 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				7D1BEB992168DB1F006D421E /* test3.mid */,
 				E981FC3B216733E100A76EBB /* test2.mid */,
 				E93DAD132166007100FAC7B0 /* paganini_etude_3_la_campanella.mid */,
 				7DEB27C22160F94F002C3E64 /* Steel Guitar.mid */,
@@ -711,6 +714,7 @@
 				E98C6892213D063D00AD33D7 /* BT_back.png in Resources */,
 				E981FC3D216733E100A76EBB /* test2.mid in Resources */,
 				E9C89CBB213E4ED6009CAE6F /* 002.mid in Resources */,
+				7D1BEB9B2168DB20006D421E /* test3.mid in Resources */,
 				E98C688D213CE84E00AD33D7 /* BrightenShader.frag in Resources */,
 				E98C688F213CE84E00AD33D7 /* GaussianBlurShader.frag in Resources */,
 				46880B8119C43A67006E1F66 /* HelloWorld.png in Resources */,

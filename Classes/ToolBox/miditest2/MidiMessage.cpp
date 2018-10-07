@@ -25,7 +25,7 @@ namespace smf {
 // MidiMessage::MidiMessage -- Constructor.
 //
 
-MidiMessage::MidiMessage(void) : vector<uchar>(), isAcrossBar(false) {
+MidiMessage::MidiMessage(void) : vector<uchar>(), isAcrossBar(false), extendDuration(-1) {
 	// do nothing
 }
 

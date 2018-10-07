@@ -59,6 +59,8 @@ MidiEvent::MidiEvent(const MidiEvent& mfevent) : MidiMessage() {
 	tick    = mfevent.tick;
 	seconds = mfevent.seconds;
 	seq     = mfevent.seq;
+    isAcrossBar = mfevent.isAcrossBar;
+    extendDuration = mfevent.extendDuration;
 	m_eventlink = NULL;
 
 	this->resize(mfevent.size());
@@ -94,6 +96,8 @@ void MidiEvent::clearVariables(void) {
 	tick      = 0;
 	seconds   = 0.0;
 	seq       = 0;
+    isAcrossBar = false;
+    extendDuration = -1;
 	m_eventlink = NULL;
 }
 
@@ -111,6 +115,8 @@ MidiEvent& MidiEvent::operator=(const MidiEvent& mfevent) {
 	track   = mfevent.track;
 	seconds = mfevent.seconds;
 	seq     = mfevent.seq;
+    isAcrossBar = mfevent.isAcrossBar;
+    extendDuration = mfevent.extendDuration;
 	m_eventlink = NULL;
 	this->resize(mfevent.size());
 	for (int i=0; i<(int)this->size(); i++) {

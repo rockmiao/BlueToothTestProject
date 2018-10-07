@@ -34,7 +34,7 @@ bool GameMainLayer::init()
     note->setPosition(Vec2(30, sheet->getContentSize().height/2 - note->getContentSize().height));
     sheet->addChild(note);
     
-    std::string songName = "test2.mid";
+    std::string songName = "test3.mid";
     SheetMusicLayer *sm = SheetMusicLayer::create(songName);
     sm->setPosition(Vec2::ZERO);
     this->addChild(sm);

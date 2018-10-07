@@ -15,8 +15,8 @@ USING_NS_CC;
 
 class SheetNoteNode : public Node {
 public:
-    static SheetNoteNode *create(std::vector<MidiEvent> noteOnEvents);
-    bool init(std::vector<MidiEvent> noteOnEvents);
+    static SheetNoteNode *create(MidiEventList *noteOnEvents);
+    bool init(MidiEventList *noteOnEvents);
 };
 
 #endif /* SheetNoteNode_h */
