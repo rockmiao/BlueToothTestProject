@@ -7,7 +7,7 @@
 
 #include "SheetNoteNode.h"
 
-SheetNoteNode *SheetNoteNode::create(MidiEventList *noteOnEvents) {
+SheetNoteNode *SheetNoteNode::create(MidiEventList noteOnEvents) {
     SheetNoteNode *ret = new SheetNoteNode();
     if (ret && ret->init(noteOnEvents))
         ret->autorelease();
@@ -16,29 +16,28 @@ SheetNoteNode *SheetNoteNode::create(MidiEventList *noteOnEvents) {
     return ret;
 }
 
-bool SheetNoteNode::init(MidiEventList *noteOnEvents) {
+bool SheetNoteNode::init(MidiEventList noteOnEvents) {
     if (!Node::init())
         return false;
     
     unordered_map<int, std::vector<MidiEvent>> durationMap;
+    MidiEvent diffEvent;
+
+    for (int i = 0; i < noteOnEvents.size(); i++) {
+        diffEvent.setMessage(noteOnEvents[i]);
+        diffEvent.recordDuration = noteOnEvents[i].recordDuration;
+        durationMap[noteOnEvents[i].getTickDuration()].push_back(diffEvent);
+    }
     
-//    for (int i = 0; i < noteOnEvents[0].size(); i++) {
-//        unordered_map<int, std::vector<MidiEvent>>::const_iterator _find = durationMap.find(noteOnEvents.at(i).getTickDuration());
-//        if (_find == durationMap.end()) {
-//            std::vector<MidiEvent> tmp;
-//            tmp.push_back(noteOnEvents.at(i));
-//            durationMap[noteOnEvents.at(i).getTickDuration()] = tmp;
-//        } else {
-//            durationMap[noteOnEvents.at(i).getTickDuration()].push_back(noteOnEvents.at(i));
-//        }
-//    }
-//    
-//    for (auto i : durationMap) {
-//        auto test1 = i.first;
-//        auto test2 = i.second;
-//        int t = 0;
-//    }
-//    
+    for (auto obj : durationMap) {
+        for (int i = 0; i < obj.second.size(); i++) {
+            MidiEvent test = obj.second.at(i);
+            int noteLength = round(SheetMusicLayer::getTPQ() * 4. / (float)test.getTickDuration());
+            unsigned char byte0 = test[0];
+            unsigned char byte1 = test[1];
+            unsigned char byte2 = test[2];
+        }
+    }
     
     return true;
 }

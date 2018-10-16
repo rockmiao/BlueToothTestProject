@@ -23,7 +23,7 @@ bool LobbyScene::init() {
     this->addChild(sceneBG, INT_MIN);
     
     CBBlueTooth::getInstance();
-    MeteoAudioSystem::getInstance();
+    //MeteoAudioSystem::getInstance();
     
     return true;
 }

@@ -35,6 +35,7 @@ public:
     static SheetMusicLayer* create(const std::string &fileName);
     bool init(const std::string &fileName);
     
+    static int getTPQ();
     static int getBarLengthBySignature(SheetSignature signature);
     static int getCurrentBarLengthInTick();
     static int getCurrentBarEndTicks(const int &currentTick, const SignatureWithBeginTick &signatureWithBeginTick);

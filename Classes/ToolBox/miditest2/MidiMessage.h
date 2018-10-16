@@ -27,7 +27,7 @@ class MidiMessage : public std::vector<uchar> {
 
 	public:
         bool           isAcrossBar;
-        int            extendDuration;
+        int            recordDuration;
 		               MidiMessage          (void);
 		               MidiMessage          (int command);
 		               MidiMessage          (int command, int p1);

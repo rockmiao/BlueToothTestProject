@@ -10,6 +10,8 @@
 #include "../../../ToolBox/SheetMusicUtility.h"
 #include <iostream>
 
+#define noteHeight 17
+
 SignatureWithBeginTick s_currentSignatureWithBeginTick;
 int TPQ;
 int s_currentBarEndTicks;
@@ -21,6 +23,10 @@ SheetMusicLayer::SheetMusicLayer():_needUpdateSignatureInfo(true) {
 
 SheetMusicLayer::~SheetMusicLayer() {
     
+}
+
+int SheetMusicLayer::getTPQ() {
+    return TPQ;
 }
 
 SignatureWithBeginTick getCurrentSignature() {
@@ -61,8 +67,8 @@ bool SheetMusicLayer::init(const std::string &fileName) {
     
     int tracks = midifile.getTrackCount();
     TPQ = midifile.getTicksPerQuarterNote();
-    MidiEventList *noteOnEvent = new MidiEventList;
-    MidiEventList *crossBarEvents = new MidiEventList;
+    MidiEventList noteOnEvent;// = new MidiEventList;
+    MidiEventList crossBarEvents;// = new MidiEventList;
     MidiEvent acrossEvent;
     //std::vector<Node*> needExtendLineNode;
     std::map<int, SignatureWithBeginTick> signatureStructure; //整首歌的拍號分佈 <第幾小節, <開始拍號, tick>>
@@ -110,7 +116,7 @@ bool SheetMusicLayer::init(const std::string &fileName) {
                 // todo: 上一小節的延長音補到這小節
             }
             
-            noteOnEvent->clear();
+            noteOnEvent.clear();
 //            if (crossBarEvents.size()) {
 //                noteOnEvent.assign(crossBarEvents.begin(), crossBarEvents.end());
 //                crossBarEvents.clear();
@@ -126,14 +132,15 @@ bool SheetMusicLayer::init(const std::string &fileName) {
                         timeGap = 0;
                     pauseTimeInNote = round(timeGap);
                     pauseTime = midifile[track][event].tick + midifile[track][event].getTickDuration();
-                    noteOnEvent->push_back(midifile[track][event]);
+                    noteOnEvent.push_back(midifile[track][event]);
+                    noteOnEvent.back().recordDuration = midifile[track][event].getTickDuration();
                     
                     //如果這個noteOn事件持續時間超過一個小節 就把他分成兩個
                     if (midifile[track][event].tick + midifile[track][event].getTickDuration() > s_currentBarEndTicks) {
-                        noteOnEvent->back().isAcrossBar = true;
+                        noteOnEvent.back().isAcrossBar = true;
                         //會被回收
                         this->createAcrossNote(midifile[track][event], acrossEvent);
-                        crossBarEvents->push_back(acrossEvent);
+                        crossBarEvents.push_back(acrossEvent);
                         
                         //換下一小節的時候要把所有偵測到有across的note都連到下一小節去
                         //needExtendLineNode.push_back(currentNode);
@@ -149,12 +156,12 @@ bool SheetMusicLayer::init(const std::string &fileName) {
                 ticks = midifile[track][event].tick;
             
             //把音畫上去
-            if (noteOnEvent->size()) {
+            if (noteOnEvent.size()) {
                 
                 SheetNoteNode *test = SheetNoteNode::create(noteOnEvent);
             }
             //create pauseNote
-            if (pauseTimeInTick > 0) {
+            if (pauseTimeInNote > 0) {
                 
             }
         }
@@ -201,7 +208,7 @@ void SheetMusicLayer::createAcrossNote(MidiEvent &target, MidiEvent &events) {
     events.tick = s_currentBarEndTicks;
     events.track = target.track;
     events.isAcrossBar = true;
-    events.extendDuration = target.getTickDuration() - (s_currentBarEndTicks - target.tick);
+    events.recordDuration = target.getTickDuration() - (s_currentBarEndTicks - target.tick);
     events.setMessage(target);
 //    for (int i = 0; i < target.size(); i++)
 //        events.push_back(target.at(i));

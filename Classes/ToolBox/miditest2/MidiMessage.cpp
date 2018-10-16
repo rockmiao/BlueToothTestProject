@@ -25,45 +25,45 @@ namespace smf {
 // MidiMessage::MidiMessage -- Constructor.
 //
 
-MidiMessage::MidiMessage(void) : vector<uchar>(), isAcrossBar(false), extendDuration(-1) {
+MidiMessage::MidiMessage(void) : vector<uchar>(), isAcrossBar(false), recordDuration(0) {
 	// do nothing
 }
 
 
-MidiMessage::MidiMessage(int command) : vector<uchar>(1, (uchar)command), isAcrossBar(false), extendDuration(-1) {
+MidiMessage::MidiMessage(int command) : vector<uchar>(1, (uchar)command), isAcrossBar(false), recordDuration(0) {
 	// do nothing
 }
 
 
-MidiMessage::MidiMessage(int command, int p1) : vector<uchar>(2), isAcrossBar(false), extendDuration(-1) {
+MidiMessage::MidiMessage(int command, int p1) : vector<uchar>(2), isAcrossBar(false), recordDuration(0) {
 	(*this)[0] = (uchar)command;
 	(*this)[1] = (uchar)p1;
 }
 
 
-MidiMessage::MidiMessage(int command, int p1, int p2) : vector<uchar>(3), isAcrossBar(false), extendDuration(-1) {
+MidiMessage::MidiMessage(int command, int p1, int p2) : vector<uchar>(3), isAcrossBar(false), recordDuration(0) {
 	(*this)[0] = (uchar)command;
 	(*this)[1] = (uchar)p1;
 	(*this)[2] = (uchar)p2;
 }
 
 
-MidiMessage::MidiMessage(const MidiMessage& message) : vector<uchar>(), isAcrossBar(false), extendDuration(-1) {
+MidiMessage::MidiMessage(const MidiMessage& message) : vector<uchar>(), isAcrossBar(false), recordDuration(0) {
 	(*this) = message;
 }
 
 
-MidiMessage::MidiMessage(const std::vector<uchar>& message) : vector<uchar>(), isAcrossBar(false), extendDuration(-1) {
+MidiMessage::MidiMessage(const std::vector<uchar>& message) : vector<uchar>(), isAcrossBar(false), recordDuration(0) {
 	setMessage(message);
 }
 
 
-MidiMessage::MidiMessage(const std::vector<char>& message) : vector<uchar>(), isAcrossBar(false), extendDuration(-1) {
+MidiMessage::MidiMessage(const std::vector<char>& message) : vector<uchar>(), isAcrossBar(false), recordDuration(0) {
 	setMessage(message);
 }
 
 
-MidiMessage::MidiMessage(const std::vector<int>& message) : vector<uchar>(), isAcrossBar(false), extendDuration(-1) {
+MidiMessage::MidiMessage(const std::vector<int>& message) : vector<uchar>(), isAcrossBar(false), recordDuration(0) {
 	setMessage(message);
 }
 

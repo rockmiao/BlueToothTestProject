@@ -60,7 +60,7 @@ MidiEvent::MidiEvent(const MidiEvent& mfevent) : MidiMessage() {
 	seconds = mfevent.seconds;
 	seq     = mfevent.seq;
     isAcrossBar = mfevent.isAcrossBar;
-    extendDuration = mfevent.extendDuration;
+    recordDuration = mfevent.recordDuration;
 	m_eventlink = NULL;
 
 	this->resize(mfevent.size());
@@ -97,7 +97,7 @@ void MidiEvent::clearVariables(void) {
 	seconds   = 0.0;
 	seq       = 0;
     isAcrossBar = false;
-    extendDuration = -1;
+    recordDuration = 0;
 	m_eventlink = NULL;
 }
 
@@ -116,7 +116,7 @@ MidiEvent& MidiEvent::operator=(const MidiEvent& mfevent) {
 	seconds = mfevent.seconds;
 	seq     = mfevent.seq;
     isAcrossBar = mfevent.isAcrossBar;
-    extendDuration = mfevent.extendDuration;
+    recordDuration = mfevent.recordDuration;
 	m_eventlink = NULL;
 	this->resize(mfevent.size());
 	for (int i=0; i<(int)this->size(); i++) {
@@ -248,12 +248,9 @@ int MidiEvent::isLinked(void) const {
 //
 
 int MidiEvent::getTickDuration(void) const {
-    if (isAcrossBar && extendDuration != -1)
-        return extendDuration;
-    
 	const MidiEvent* mev = getLinkedEvent();
-	if (mev == NULL) {
-		return 0;
+	if (mev == NULL || isAcrossBar) {
+		return recordDuration;
 	}
 	int tick2 = mev->tick;
 	if (tick2 > tick) {
