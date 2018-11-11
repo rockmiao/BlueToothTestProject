@@ -184,6 +184,7 @@
 		7DC0B22A213C14570046AE47 /* PeripheralListLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PeripheralListLayer.cpp; sourceTree = "<group>"; };
 		7DC0B230213C2C000046AE47 /* MeteoDummyTouchLayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MeteoDummyTouchLayer.cpp; sourceTree = "<group>"; };
 		7DC0B231213C2C000046AE47 /* MeteoDummyTouchLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeteoDummyTouchLayer.h; sourceTree = "<group>"; };
+		7DDFDC692198852E003152DC /* SheetMusicDefinition.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SheetMusicDefinition.h; sourceTree = "<group>"; };
 		7DE7A9A9212EDC6C00C93BD8 /* BLESettingHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLESettingHeader.h; sourceTree = "<group>"; };
 		7DEB27C22160F94F002C3E64 /* Steel Guitar.mid */ = {isa = PBXFileReference; lastKnownFileType = audio.midi; path = "Steel Guitar.mid"; sourceTree = "<group>"; };
 		7DEB27CB21624CCE002C3E64 /* SheetNoteNode.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SheetNoteNode.cpp; sourceTree = "<group>"; };
@@ -519,6 +520,7 @@
 				7DEB27C921624C49002C3E64 /* SheetNoteNode */,
 				E92D6706216222A80096D5D9 /* SheetMusicLayer.cpp */,
 				E92D6707216222A80096D5D9 /* SheetMusicLayer.h */,
+				7DDFDC692198852E003152DC /* SheetMusicDefinition.h */,
 			);
 			path = SheetMusicLayer;
 			sourceTree = "<group>";
