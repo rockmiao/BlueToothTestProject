@@ -87,7 +87,7 @@ bool SheetMusicLayer::init(const std::string &fileName) {
                     SignatureWithBeginTick tmp = signatureStructure[s_currentSignatureRangeInfo.beginBarNo];
                     s_currentSignatureRangeInfo.beginBarNo = s_currentSignatureRangeInfo.beginBarNo + ((midifile[track][event].tick - tmp.second) / getBarLengthBySignature(tmp.first));
                     s_currentSignatureRangeInfo.currentBarNo = s_currentSignatureRangeInfo.beginBarNo;
-                    s_currentSignatureRangeInfo.endBarNo = -1;
+                    s_currentSignatureRangeInfo.endBarNo = -1;//代表剛拿到 結束小節未定
                     s_currentSignatureWithBeginTick =  make_pair(make_pair((int)midifile[track][event][3], (int)midifile[track][event][4]), midifile[track][event].tick);
                     signatureStructure[s_currentSignatureRangeInfo.beginBarNo] = s_currentSignatureWithBeginTick;
                     s_currentBarEndTicks = getCurrentBarEndTicks(midifile[track][event].tick, s_currentSignatureWithBeginTick);
